@@ -1,3 +1,8 @@
+//onload hide loading screen
+window.onload =function(){
+    document.getElementById("loading").style.display="none";
+}
+
 //fetching arch1 images
 fetch("assets/media/arch1single.svg")
 .then(response=> response.text())
@@ -73,11 +78,7 @@ let violets = document.querySelectorAll(".violet");
 let seeMoreBtn = document.querySelectorAll(".seeMore");
 let containers = document.querySelectorAll(".container");
 
-
-let statementsSingle =["Pick your color"];
-let statementsDouble =["Pick your first color", "Pick your second color"];
-let statementsTriple =["Pick your first color", "Pick your second color", "Pick your third color"];
-
+let currentSelection ={"firstColor":null, "secondColor":null, "thirdColor":null}
 //--------------------------------------------------------------------------------------------------HANDLE CLICK OF SEE MORE BUTTON-------------------------------------------------------------------------------------------------------------------------------------------
 function handleClick(e){        
         let currentContainerId = e.target.parentNode.parentNode.parentNode.id;
@@ -91,22 +92,22 @@ function handleClick(e){
                 if(currentContainerId.includes("Single")){
                     picks.innerHTML = 
                             `<div id="arrowContainer">
-                                <button id="leftArrow class="hide"><img src="./assets/media/leftArrow.svg"></button>
-                                <p class="statement">${statementsSingle[0]}</p>
-                                <button id="rightArrow calss="hide"><img src="./assets/media/rightArrow.svg"></button>
+                                <button id="leftArrow" class="hide"><img src="./assets/media/leftArrow.svg"></button>
+                                <p class="statement">Pick your color</p>
+                                <button id="rightArrow" class="hide"><img src="./assets/media/rightArrow.svg"></button>
                             </div>`
                 }else if(currentContainerId.includes("Double")){
                     picks.innerHTML = 
                             `<div id="arrowContainer">
                                 <button id="leftArrow"><img src="./assets/media/leftArrow.svg"></button>
-                                <p class="statement">${statementsDouble[0]}</p>
+                                <p class="statement">Pick your first color</p>
                                 <button id="rightArrow"><img src="./assets/media/rightArrow.svg"></button>
                             </div>`
                 }else if(currentContainerId.includes("Triple")){
                      picks.innerHTML = 
                             `<div id="arrowContainer">
                                 <button id="leftArrow"><img src="./assets/media/leftArrow.svg"></button>
-                                <p class="statement">${statementsTriple[0]}</p>
+                                <p class="statement">Pick your first color</p>
                                 <button id="rightArrow"><img src="./assets/media/rightArrow.svg"></button>
                             </div>`                   
                 }
@@ -121,31 +122,31 @@ function handleClick(e){
                 if (target) {
                 target.classList.remove("hideOptions");
                 target.insertAdjacentHTML("beforeend",`
-                    <div class="buttons">
-                    <button type="button" class="colors" data-color="#000000ff" data-outline="#ffffff"></button> <!-- black -->
-                    <button type="button" class="colors" data-color="#ffffffff" data-outline="#000000ff"></button> <!-- white -->
-                    <button type="button" class="colors" data-color="#FFD700" data-outline="#000000ff"></button> <!-- gold -->
-                    <button type="button" class="colors" data-color="#ADD8E6" data-outline="#000000ff"></button> <!-- baby blue -->
-                    <button type="button" class="colors" data-color="#FFB6C1" data-outline="#000000ff"></button> <!-- baby pink -->
-                    <button type="button" class="colors" data-color="#194D19" data-outline="#000000ff"></button> <!-- deep forest green -->
-                    <button type="button" class="colors" data-color="#19294D" data-outline="#000000ff"></button> <!-- midnight blue -->
-                    <button type="button" class="colors" data-color="#4D1919" data-outline="#000000ff"></button> <!-- oxblood -->
-                    <button type="button" class="colors" data-color="#E2C7A6" data-outline="#000000ff"></button> <!-- warm beige -->
-                    <button type="button" class="colors" data-color="#A67C52" data-outline="#000000ff"></button> <!-- warm taupe -->
-                    <button type="button" class="colors" data-color="#C2B280" data-outline="#000000ff"></button> <!-- muted khaki -->
-                    <button type="button" class="colors" data-color="#B0A8B9" data-outline="#000000ff"></button> <!-- dusty lavender -->
-                    <button type="button" class="colors" data-color="#8FA9B9" data-outline="#000000ff"></button> <!-- slate blue -->
-                    <button type="button" class="colors" data-color="#7D9F94" data-outline="#000000ff"></button> <!-- muted teal -->
-                    <button type="button" class="colors" data-color="#A3B18A" data-outline="#000000ff"></button> <!-- olive green -->
-                    <button type="button" class="colors" data-color="#D4A373" data-outline="#000000ff"></button> <!-- terracotta -->
-                    <button type="button" class="colors" data-color="#E6CCB2" data-outline="#000000ff"></button> <!-- sand -->
-                    <button type="button" class="colors" data-color="#B5838D" data-outline="#000000ff"></button> <!-- muted rose -->
-                    <button type="button" class="colors" data-color="#6D6875" data-outline="#000000ff"></button> <!-- smoky plum -->
-                    <button type="button" class="colors" data-color="#9CA3AF" data-outline="#000000ff"></button> <!-- cool grey -->
-                    <button type="button" class="colors" data-color="#94A3B8" data-outline="#000000ff"></button> <!-- steel blue -->
-                    <button type="button" class="colors" data-color="#64748B" data-outline="#000000ff"></button> <!-- graphite blue -->
-                    <button type="button" class="colors" data-color="#F5E6CC" data-outline="#000000ff"></button> <!-- peach cream -->
-                    <button type="button" class="colors" data-color="#A2C2A2" data-outline="#000000ff"></button> <!-- sage green -->
+                    <div id="buttons">
+                        <button type="button" class="colors" data-color="#000000ff" data-outline="#ffffff" aria-label="Black"></button> <!-- black -->
+                        <button type="button" class="colors" data-color="#ffffffff" data-outline="#000000ff" aria-label="White"></button> <!-- white -->
+                        <button type="button" class="colors" data-color="#FFD700" data-outline="#000000ff" aria-label="Gold"></button> <!-- gold -->
+                        <button type="button" class="colors" data-color="#ADD8E6" data-outline="#000000ff" aria-label="Baby Blue"></button> <!-- baby blue -->
+                        <button type="button" class="colors" data-color="#FFB6C1" data-outline="#000000ff" aria-label="Baby Pink"></button> <!-- baby pink -->
+                        <button type="button" class="colors" data-color="#194D19" data-outline="#000000ff" aria-label="Deep Forest Green"></button> <!-- deep forest green -->
+                        <button type="button" class="colors" data-color="#19294D" data-outline="#000000ff" aria-label="Midnight Blue"></button> <!-- midnight blue -->
+                        <button type="button" class="colors" data-color="#4D1919" data-outline="#000000ff" aria-label="Oxblood"></button> <!-- oxblood -->
+                        <button type="button" class="colors" data-color="#E2C7A6" data-outline="#000000ff" aria-label="Warm Beige"></button> <!-- warm beige -->
+                        <button type="button" class="colors" data-color="#A67C52" data-outline="#000000ff" aria-label="Warm Taupe"></button> <!-- warm taupe -->
+                        <button type="button" class="colors" data-color="#C2B280" data-outline="#000000ff" aria-label="Muted Khaki"></button> <!-- muted khaki -->
+                        <button type="button" class="colors" data-color="#B0A8B9" data-outline="#000000ff" aria-label="Dusty Lavender"></button> <!-- dusty lavender -->
+                        <button type="button" class="colors" data-color="#8FA9B9" data-outline="#000000ff" aria-label="Slate Blue"></button> <!-- slate blue -->
+                        <button type="button" class="colors" data-color="#7D9F94" data-outline="#000000ff" aria-label="Muted Teal"></button> <!-- muted teal -->
+                        <button type="button" class="colors" data-color="#A3B18A" data-outline="#000000ff" aria-label="Olive Green"></button> <!-- olive green -->
+                        <button type="button" class="colors" data-color="#D4A373" data-outline="#000000ff" aria-label="Terracotta"></button> <!-- terracotta -->
+                        <button type="button" class="colors" data-color="#E6CCB2" data-outline="#000000ff" aria-label="Sand"></button> <!-- sand -->
+                        <button type="button" class="colors" data-color="#B5838D" data-outline="#000000ff" aria-label="Muted Rose"></button> <!-- muted rose -->
+                        <button type="button" class="colors" data-color="#6D6875" data-outline="#000000ff" aria-label="Smoky Plum"></button> <!-- smoky plum -->
+                        <button type="button" class="colors" data-color="#9CA3AF" data-outline="#000000ff" aria-label="Cool Grey"></button> <!-- cool grey -->
+                        <button type="button" class="colors" data-color="#94A3B8" data-outline="#000000ff" aria-label="Steel Blue"></button> <!-- steel blue -->
+                        <button type="button" class="colors" data-color="#64748B" data-outline="#000000ff" aria-label="Graphite Blue"></button> <!-- graphite blue -->
+                        <button type="button" class="colors" data-color="#F5E6CC" data-outline="#000000ff" aria-label="Peach Cream"></button> <!-- peach cream -->
+                        <button type="button" class="colors" data-color="#A2C2A2" data-outline="#000000ff" aria-label="Sage Green"></button> <!-- sage green -->
                     </div>`);
                 const colors = container.querySelectorAll(".colors");
 
@@ -187,7 +188,12 @@ seeMoreBtn.forEach(btn=>{
 
 //--------------------------------------------------------------------------------------------------HANDLE COLOUR CLICKS-------------------------------------------------------------------------------------------------------------------------------------------
 function handleColorClick(e){
-    let layer = e.target.parentNode.parentNode.parentNode.querySelector(".arch").querySelector("g");
+    let colors = document.querySelectorAll(".colors");
+    colors.forEach(color=>{
+        color.classList.remove("selected");
+    })
+    e.target.classList.add("selected");
+    let layer = e.target.parentNode.parentNode.parentNode.querySelector(".arch svg");
     console.log(layer);
     let ellipses = layer.querySelectorAll("ellipse");
     console.log(ellipses);
@@ -195,85 +201,131 @@ function handleColorClick(e){
     let outline = e.target.dataset.outline;
     console.log(selectedColor);
     ellipses.forEach(circle=>{
+      if(circle.getAttribute("inkscape:label") === "grey"){
         circle.style.fill = selectedColor;
         circle.style.stroke = outline;
-        
+      }
     })
 }
 
 function handleColorClickDouble(e){
-    console.log("its working for double!");
-    let layer = e.target.parentNode.parentNode.parentNode.querySelector(".arch").querySelector("g");
-    console.log(layer);
-    let ellipses = layer.querySelectorAll("ellipse");
-    let selectedColor = e.target.dataset.color;
-    let outline = e.target.dataset.outline;
+   const colors = document.querySelectorAll(".colors");
+  const layer = e.target.closest(".container").querySelector(".arch svg");
+  const ellipses = layer.querySelectorAll("ellipse");
+  const selectedColor = e.target.dataset.color;
+  const outline = e.target.dataset.outline;
+  const statement = document.querySelector("#arrowContainer p");
+  const text = statement.textContent;
+
+  // Clear previous selection
+  colors.forEach(color => color.classList.remove("selected"));
+
+  // Highlight clicked button
+  e.target.classList.add("selected");
+
+  // Apply fill to correct ellipse
+  ellipses.forEach(circle => {
+    const label = circle.getAttribute("inkscape:label");
+    if (
+      (label === "grey" && text === "Pick your first color") ||
+      (label === "white" && text === "Pick your second color")
+    ) {
+      circle.style.fill = selectedColor;
+      circle.style.stroke = outline;
+      saveSelection(text, selectedColor);
+    }
+  });
 }
 
-function handleColorClickTriple(e){
-    console.log("its working for triple");
-    let layer = e.target.parentNode.parentNode.parentNode.querySelector(".arch").querySelector("g");
-    let ellipses = layer.querySelectorAll("ellipse");
-    let selectedColor = e.target.dataset.color;
-    let outline = e.target.dataset.outline;
-    let statement = document.querySelector("#arrowContainer").querySelector("p");
-    let text = statement.textContent;
-    console.log(statement);
-    ellipses.forEach(circle=>{
-        const label = circle.getAttribute("inkscape:label");
-        if(label === "black" && text==="Pick your first color"){
-            circle.style.fill = selectedColor;
-            circle.style.stroke = outline;
-        }else if(label === "grey" && text==="Pick your second color"){
-            circle.style.fill = selectedColor;
-            circle.style.stroke = outline;
-        }else if(label === "white" && text==="Pick your third color"){
-            circle.style.fill = selectedColor;
-            circle.style.stroke = outline;
-        }
-    })
+function handleColorClickTriple(e) {
+  const colors = document.querySelectorAll(".colors");
+  const layer = e.target.closest(".container").querySelector(".arch svg");
+  const ellipses = layer.querySelectorAll("ellipse");
+  const selectedColor = e.target.dataset.color;
+  const outline = e.target.dataset.outline;
+  const statement = document.querySelector("#arrowContainer p");
+  const text = statement.textContent;
+
+  // Clear previous selection
+  colors.forEach(color => color.classList.remove("selected"));
+
+  // Highlight clicked button
+  e.target.classList.add("selected");
+
+  // Apply fill to correct ellipse
+  ellipses.forEach(circle => {
+    const label = circle.getAttribute("inkscape:label");
+    if (
+      (label === "black" && text === "Pick your first color") ||
+      (label === "grey" && text === "Pick your second color") ||
+      (label === "white" && text === "Pick your third color")
+    ) {
+      circle.style.fill = selectedColor;
+      circle.style.stroke = outline;
+      saveSelection(text, selectedColor);
+    }
+  });
 }
 
-//--------------------------------------------------------------------------------------------------HANDLE CLICK OF GO BACK BUTTON---------------------------------------------------------------------------------------------------------------------------------------------------
-function updateStatementText(newText) {
+//--------------------------------------------------------------------------------------------------UPDATE TEXT---------------------------------------------------------------------------------------------------------------------------------------------------
+function updateStatementText(newText, direction) {
   const statement = document.querySelector("#arrowContainer .statement");
-  const options = document.querySelector("#arrowContainer").parentNode.parentNode;
-  console.log(options);
-  if (!statement) return;
+  let currentContainer = statement.closest(".container");
+  console.log(currentContainer);
+  const buttons = document.querySelector("#buttons");
+  const options = buttons.parentNode.querySelector(".picks");
+  if (!statement || !buttons || !options) return;
 
-  options.classList.add("fade-out");
+  buttons.classList.remove("animate-left", "animate-right");
+  void buttons.offsetWidth; // force reflow
+  buttons.classList.add(`animate-${direction}`);
 
+  statement.classList.add("fade-out");
   setTimeout(() => {
     statement.textContent = newText;
-    options.classList.remove("fade-out");
-  }, 300); // match CSS duration
+    statement.classList.remove("fade-out");
+  }, 300);
 }
 
+//--------------------------------------------------------------------------------------------------SAVE SELECTION TO VARIABLE---------------------------------------------------------------------------------------------------------------------------------------------------
+function saveSelection(position, color) {
+    if(position === "Pick your first color"){
+        currentSelection.firstColor = color;
+    }else if(position === "Pick your second color"){
+        currentSelection.secondColor = color;
+    }else if(position === "Pick your third color"){
+        currentSelection.thirdColor = color;
+    }
+}
+//--------------------------------------------------------------------------------------------------HANDLE ARROW CLICKS---------------------------------------------------------------------------------------------------------------------------------------------------
 function rightArrowClick() {
   const statement = document.querySelector("#arrowContainer .statement");
   const text = statement.textContent;
-
   if (text === "Pick your first color") {
-    updateStatementText("Pick your second color");
+    updateStatementText("Pick your second color", "right");
   } else if (text === "Pick your second color") {
-    updateStatementText("Pick your third color");
+    if(statement.closest(".container").id.includes("Double")){
+      updateStatementText("Pick your first color", "right");
+      return;
+    }
+    updateStatementText("Pick your third color", "right");
   } else {
-    updateStatementText("Pick your first color");
+    updateStatementText("Pick your first color", "right");
   }
 }
 
 function leftArrowClick() {
   const statement = document.querySelector("#arrowContainer .statement");
   const text = statement.textContent;
-
   if (text === "Pick your first color") {
-    updateStatementText("Pick your third color");
+    updateStatementText("Pick your third color", "left");
   } else if (text === "Pick your second color") {
-    updateStatementText("Pick your first color");
+    updateStatementText("Pick your first color", "left");
   } else {
-    updateStatementText("Pick your second color");
+    updateStatementText("Pick your second color", "left");
   }
 }
+
 //--------------------------------------------------------------------------------------------------HANDLE CLICK OF GO BACK BUTTON---------------------------------------------------------------------------------------------------------------------------------------------------
 function goBack(e){
     let currentContainer = e.target.parentNode.id;
