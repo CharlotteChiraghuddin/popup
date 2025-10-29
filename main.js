@@ -73,12 +73,34 @@ let greens = document.querySelectorAll(".green");
 let blues = document.querySelectorAll(".blue");
 let indigos = document.querySelectorAll(".indigo");
 let violets = document.querySelectorAll(".violet");
-
+let welcomeText = ["Your event, your style — we make it happen","No matter the occasion, we make it special","Designed for every moment worth celebrating","Whatever the celebration, we’re here to elevate it"];
 
 let seeMoreBtn = document.querySelectorAll(".seeMore");
 let containers = document.querySelectorAll(".container");
 
 let currentSelection ={"firstColor":null, "secondColor":null, "thirdColor":null}
+
+//--------------------------------------------------------------------------------------------------ROTATE THE WELCOME TEXT-------------------------------------------------------------------------------------------------------------------------------------------
+
+let welcomeTextIndex = 0;
+function rotateWelcomeText() {
+  const el = document.getElementById("welcome-text");
+  
+  // Fade out
+  el.style.opacity = 0;
+
+  setTimeout(() => {
+    // Change text after fade out
+    welcomeTextIndex = (welcomeTextIndex + 1) % welcomeText.length;
+    el.innerText = welcomeText[welcomeTextIndex];
+
+    // Fade in
+    el.style.opacity = 1;
+  }, 500); 
+}
+
+setInterval(rotateWelcomeText, 4000);
+
 //--------------------------------------------------------------------------------------------------HANDLE CLICK OF SEE MORE BUTTON-------------------------------------------------------------------------------------------------------------------------------------------
 function handleClick(e){        
         let currentContainerId = e.target.parentNode.parentNode.parentNode.id;
@@ -87,7 +109,10 @@ function handleClick(e){
         containers.forEach(container=>{
             if(container.id === currentContainerId){
                 container.classList.add("maximise");
+                document.getElementById("home").style.display="none";
                 container.querySelector(".back").classList.remove("hide");
+                container.querySelector(".save").classList.remove("hide");
+                container.querySelector(".share").classList.remove("hide");
                 container.querySelector(".back").addEventListener("click", goBack);
 //-------------------------------------------------------------------------------------------------------UPDATE ARROWS-------------------------------------------------------------------------------------------------------------------------------------------------------
                 let picks = container.querySelector(".picks");
@@ -376,12 +401,58 @@ function leftArrowClick() {
 }
 
 //--------------------------------------------------------------------------------------------------HANDLE CLICK OF GO BACK BUTTON---------------------------------------------------------------------------------------------------------------------------------------------------
-function goBack(e){
-  location.reload(); 
+function goBack() {
+  containers.forEach(container => {
+    container.classList.remove("maximise");
+    container.classList.remove("hide");
+
+    document.getElementById("home").style.display = "flex";
+    const colors = document.getElementById("buttons");
+    const backBtn = container.querySelector(".back");
+    const saveBtn = container.querySelector(".save");
+    const shareBtn = container.querySelector(".share");
+    const picks = container.querySelector(".picks");
+    const options = container.querySelector(".hideOptions");
+    const seeMoreBtn = container.querySelector(".seeMore"); 
+
+    if (colors) colors.remove();
+    if (backBtn) backBtn.classList.add("hide");
+    if (saveBtn) saveBtn.classList.add("hide");
+    if (shareBtn) shareBtn.classList.add("hide");
+    if (picks) picks.innerHTML = "";
+
+    if (options) {
+      options.classList.add("hideOptions");
+      const buttons = options.querySelector("#buttons");
+      if (buttons) buttons.remove();
+    }
+
+    if (seeMoreBtn) seeMoreBtn.querySelector("button").classList.remove("hide");
+  });
 }
 
-document.querySelector('a[href="#home"]').addEventListener("click", () => {
-    location.reload();
+const sectionIds = [
+  "home",
+  "services",
+  "reviews",
+  "contact",
+  "gallery",
+  "shop",
+  "calendar",
+  "basket"
+];
+
+sectionIds.forEach(id => {
+  const link = document.querySelector(`a[href="#${id}"]`);
+  const target = document.getElementById(id);
+
+  if (link && target) {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      goBack();
+      target.scrollIntoView({ behavior: "smooth" });
+    });
+  }
 });
 //--------------------------------------------------------------------------------------------------SCROLL FUNCTIONALITY-------------------------------------------------------------------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {

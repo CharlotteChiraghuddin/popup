@@ -42,12 +42,14 @@
             <div class="loader"></div>
         </div>
         <div id="home">
-            
+            <p id="welcome-text">Your event, your style — we make it happen</p>
         </div>
         <div id="services">
 
         <div class="container reveal" id="arch1Single">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch1" class="arch"></div>
             <div class="hideOptions options">
@@ -61,6 +63,8 @@
 
         <div class="container reveal" id="arch1Double">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch2" class="arch"></div>
             <div class="hideOptions options">
@@ -74,6 +78,8 @@
 
         <div class="container reveal" id="arch1Triple">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch3" class="arch"></div>
             <div class="hideOptions options">
@@ -87,6 +93,8 @@
 
         <div class="container reveal" id="arch2Single">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch4" class="arch"></div>
             <div class="hideOptions options">
@@ -100,6 +108,8 @@
 
         <div class="container reveal" id="arch2Double">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch5" class="arch"></div>
             <div class="hideOptions options">
@@ -113,6 +123,8 @@
 
         <div class="container reveal" id="arch2Triple">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch6" class="arch"></div>
             <div class="hideOptions options">
@@ -126,6 +138,8 @@
 
         <div class="container reveal" id="arch3Single">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch7" class="arch"></div>
             <div class="hideOptions options">
@@ -139,6 +153,8 @@
 
         <div class="container reveal" id="arch3Double">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch8" class="arch"></div>
             <div class="hideOptions options">
@@ -152,6 +168,8 @@
 
         <div class="container reveal" id="arch3Triple">
             <button class="back hide"><img src="./assets/media/backButton.svg"></button>
+            <button class="save hide"><img src="./assets/media/download.svg"></button>
+            <button class="share hide"><img src="./assets/media/share.svg"></button>
             <div class="content">
             <div id="arch9" class="arch"></div>
             <div class="hideOptions options">
@@ -164,6 +182,65 @@
         </div>
 
         </div>
+    <div id="reviews">
+        <h2>Customer Reviews</h2>
+        <div class="review">
+            <p>"Absolutely loved the service! Highly recommend."</p>
+            <span>- Happy Customer</span>
+        </div>
+        <div class="review">
+            <p>"The team was professional and attentive to our needs."</p>
+            <span>- Satisfied Client</span>
+        </div>
+    </div>
+    <div id="contact">
+        <h2>Contact Us</h2>
+        <form id="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required />
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <div id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-grid">
+        </div>
+    </div>
+    <div id="shop">
+        <h2>Shop</h2>
+        <div class="shop-items">
+            <div class="item">
+                <img src="./assets/media/item1.jpg" alt="Item 1" />
+                <h3>Item 1</h3>
+                <p>$10.00</p>
+                <button>Add to Basket</button>
+            </div>
+            <div class="item">
+                <img src="./assets/media/item2.jpg" alt="Item 2" />
+                <h3>Item 2</h3>
+                <p>$15.00</p>
+                <button>Add to Basket</button>
+            </div>
+        </div>
+    </div>
+    <div id="calendar">
+        <h2>Availability Calendar</h2>
+        <div class="calendar-widget">
+            <!-- Calendar integration goes here -->
+        </div>
+    
+    </div>
+    <div id="basket">
+        <h2>Your Basket</h2>
+        <div class="basket-items">
+            <!-- Basket items will be dynamically added here -->
+        </div>
+        <button id="checkout-button">Proceed to Checkout</button>
+    </div>
     </main>
     <script src="./main.js"></script>
 </body>
