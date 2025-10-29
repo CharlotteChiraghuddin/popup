@@ -220,7 +220,7 @@ a:hover {
 }
 
 .arch {
-  margin-top: 2.5%;
+  margin-top: .5%;
 }
 
 p {
@@ -288,21 +288,8 @@ button {
   transform: translateY(0);
 }
 
-.back {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  border: 2px solid var(--primary);
-  border-radius: 20px;
-  background-color: var(--primary);
-  color: var(--secondary);
-  font-size: 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease, top 0.3s ease;
-}
 
-.back:hover {
-  top: 8px;
-}
+
 .colors.selected {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px var(--primary);
@@ -312,9 +299,6 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -330,6 +314,32 @@ button {
   animation: spin 1s linear infinite;
 }
 
+.back{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  height:50px;
+
+}
+.back img{
+
+  will-change: transform;
+}
+
+.back img:hover{
+    animation: hover 0.3s ease forwards;
+}
+@keyframes hover {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.back img{
+  height: 100%;
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -338,3 +348,4 @@ button {
     transform: rotate(360deg);
   }
 }
+

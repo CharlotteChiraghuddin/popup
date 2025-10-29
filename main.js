@@ -87,6 +87,8 @@ function handleClick(e){
         containers.forEach(container=>{
             if(container.id === currentContainerId){
                 container.classList.add("maximise");
+                container.querySelector(".back").classList.remove("hide");
+                container.querySelector(".back").addEventListener("click", goBack);
 //-------------------------------------------------------------------------------------------------------UPDATE ARROWS-------------------------------------------------------------------------------------------------------------------------------------------------------
                 let picks = container.querySelector(".picks");
                 if(currentContainerId.includes("Single")){
@@ -96,20 +98,13 @@ function handleClick(e){
                                 <p class="statement">Pick your color</p>
                                 <button id="rightArrow" class="hide"><img src="./assets/media/rightArrow.svg"></button>
                             </div>`
-                }else if(currentContainerId.includes("Double")){
+                }else{
                     picks.innerHTML = 
                             `<div id="arrowContainer">
                                 <button id="leftArrow"><img src="./assets/media/leftArrow.svg"></button>
                                 <p class="statement">Pick your first color</p>
                                 <button id="rightArrow"><img src="./assets/media/rightArrow.svg"></button>
                             </div>`
-                }else if(currentContainerId.includes("Triple")){
-                     picks.innerHTML = 
-                            `<div id="arrowContainer">
-                                <button id="leftArrow"><img src="./assets/media/leftArrow.svg"></button>
-                                <p class="statement">Pick your first color</p>
-                                <button id="rightArrow"><img src="./assets/media/rightArrow.svg"></button>
-                            </div>`                   
                 }
                 let rightArrow = document.getElementById("rightArrow");
                 let leftArrow = document.getElementById("leftArrow");
@@ -301,42 +296,88 @@ function saveSelection(position, color) {
 function rightArrowClick() {
   const statement = document.querySelector("#arrowContainer .statement");
   const text = statement.textContent;
+  const colors = document.querySelectorAll(".colors");
   if (text === "Pick your first color") {
     updateStatementText("Pick your second color", "right");
+    colors.forEach(colorBtn=>{
+      colorBtn.classList.remove("selected");
+      if(colorBtn.dataset.color === currentSelection.secondColor){
+        colorBtn.classList.add("selected");
+      }
+    })
   } else if (text === "Pick your second color") {
     if(statement.closest(".container").id.includes("Double")){
       updateStatementText("Pick your first color", "right");
+      colors.forEach(colorBtn=>{
+        colorBtn.classList.remove("selected");
+        if(colorBtn.dataset.color === currentSelection.firstColor){
+          colorBtn.classList.add("selected");
+        }
+      });
       return;
     }
     updateStatementText("Pick your third color", "right");
+    colors.forEach(colorBtn=>{
+      colorBtn.classList.remove("selected");
+      if(colorBtn.dataset.color === currentSelection.thirdColor){
+        colorBtn.classList.add("selected");
+      }
+    });
   } else {
     updateStatementText("Pick your first color", "right");
+    colors.forEach(colorBtn=>{
+      colorBtn.classList.remove("selected");
+      if(colorBtn.dataset.color === currentSelection.firstColor){
+        colorBtn.classList.add("selected");
+      }
+    });
   }
 }
 
 function leftArrowClick() {
   const statement = document.querySelector("#arrowContainer .statement");
   const text = statement.textContent;
+  const colors = document.querySelectorAll(".colors");
   if (text === "Pick your first color") {
+    if(statement.closest(".container").id.includes("Double")){
+      updateStatementText("Pick your second color", "left");
+      colors.forEach(colorBtn=>{
+        colorBtn.classList.remove("selected");
+        if(colorBtn.dataset.color === currentSelection.secondColor){
+          colorBtn.classList.add("selected");
+        }
+    });
+      return;
+    }
     updateStatementText("Pick your third color", "left");
+    colors.forEach(colorBtn=>{
+      colorBtn.classList.remove("selected");
+      if(colorBtn.dataset.color === currentSelection.thirdColor){
+        colorBtn.classList.add("selected");
+      }
+    });
   } else if (text === "Pick your second color") {
     updateStatementText("Pick your first color", "left");
+    colors.forEach(colorBtn=>{
+      colorBtn.classList.remove("selected");
+      if(colorBtn.dataset.color === currentSelection.firstColor){
+        colorBtn.classList.add("selected");
+      }
+    });
   } else {
     updateStatementText("Pick your second color", "left");
+    colors.forEach(colorBtn=>{
+      colorBtn.classList.remove("selected");
+      if(colorBtn.dataset.color === currentSelection.secondColor){
+        colorBtn.classList.add("selected");
+      }
+    });
   }
 }
 
 //--------------------------------------------------------------------------------------------------HANDLE CLICK OF GO BACK BUTTON---------------------------------------------------------------------------------------------------------------------------------------------------
 function goBack(e){
-    let currentContainer = e.target.parentNode.id;
-    containers.forEach((container)=>{
-        container.classList.remove("hide");
-        if(container.id === currentContainer){
-            container.querySelector(".options").classList.add("hideOptions");
-            container.classList.remove("maximise");
-        }
-    })
-    
+  location.reload(); 
 }
 
 document.querySelector('a[href="#home"]').addEventListener("click", () => {
