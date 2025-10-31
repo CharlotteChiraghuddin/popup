@@ -80,6 +80,22 @@ let containers = document.querySelectorAll(".container");
 
 let currentSelection ={"firstColor":null, "secondColor":null, "thirdColor":null}
 
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-link");
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.toggle("active", link.getAttribute("href").slice(1) === entry.target.id);
+      });
+    }
+  });
+}, {
+  threshold: 0.3
+});
+
+sections.forEach(section => observer.observe(section));
 //--------------------------------------------------------------------------------------------------ROTATE THE WELCOME TEXT-------------------------------------------------------------------------------------------------------------------------------------------
 
 let welcomeTextIndex = 0;

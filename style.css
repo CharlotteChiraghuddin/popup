@@ -1,3 +1,4 @@
+/*-------------------------------------------------------------------------------------------------- CSS VARIABLES (Design Tokens) -------------------------------------------------------------------------------------------------------------------------------------------*/
 :root {
   --primary: #000;
   --secondary: #fff;
@@ -6,6 +7,26 @@
   --text: #333;
   --swatch-size: 32px;
   --swatch-border: 2px solid var(--accent);
+  --font-main: 'Inter', 'Segoe UI', sans-serif;
+  --font-heading: 1.8rem;
+  --font-subheading: 1.5rem;
+  --font-body: 1rem;
+  --font-nav: 1rem;
+  --font-button: 1rem;
+  --font-light: 200;
+  --font-normal: 400;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.6s ease-out;
+}
+
+/*-------------------------------------------------------------------------------------------------- GLOBAL & RESET STYLES -------------------------------------------------------------------------------------------------------------------------------------------*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html, body {
@@ -14,82 +35,146 @@ html, body {
   height: auto;
   min-height: 100%;
   overflow-x: hidden;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-  background-color: var(--secondary);
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: var(--font-normal);
+  line-height: 1.6;
+  background-color: #f9f9f9;
   color: var(--text);
 }
 
+/*-------------------------------------------------------------------------------------------------- TYPOGRAPHY (Uniform Across Site) -------------------------------------------------------------------------------------------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6,
+#welcome-text,
+#reviews h2,
+#contact h2,
+.service-card h3 {
+  font-family: var(--font-main);
+  font-weight: var(--font-light);
+  margin: 0 0 0.8rem 0;
+  color: rgb(98, 98, 98);
+}
+
+h1, #welcome-text { font-size: var(--font-heading); }
+h2, #reviews h2, #contact h2 { font-size: var(--font-subheading); }
+h3, .service-card h3 { font-size: 1.4rem; }
+
+p, .review, label, input, textarea, button, a, li {
+  font-family: var(--font-main);
+  font-size: var(--font-body);
+  font-weight: var(--font-normal);
+}
+
+/*-------------------------------------------------------------------------------------------------- HEADER & NAVIGATION -------------------------------------------------------------------------------------------------------------------------------------------*/
 header {
   background-color: var(--primary);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .header-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  padding: 0 1rem;
+  height: 80px;
 }
 
+/* LEFT & RIGHT NAVIGATION */
+#sec1 nav ul,
+#sec2 nav ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0 0 1.5rem 0;        /* MARGIN UNDERNEATH NAV LINKS */
+  padding: 0;
+}
+
+#sec1 nav li,
+#sec2 nav li {
+  display: inline-block;
+}
+
+nav a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 200;                    /* LIGHT NAV LINKS */
+  padding: 0.25rem 0;
+  transition: color var(--transition-fast);
+}
+
+nav a:hover {
+  color: #ddd;
+}
+
+.nav-link.active {
+  font-weight: 300;                    /* Slightly stronger than normal, but not bold */
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+
+/* TITLE: 2rem, SPACED ABOVE */
 #name {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 80px;
-  font-weight: 200;
-  font-size: 1.3rem;
-  padding: 0;
   margin: 0;
-  line-height: 0.5;
-  color: var(--secondary);
+  padding: 0;
 }
 
+#name p {
+  margin: 0.5rem 0 0 0;                 /* MARGIN ABOVE TITLE */
+  padding: 0;
+  font-weight: 200;
+  font-size: 2rem;                     /* EXACTLY 2rem */
+  color: var(--secondary);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/*-------------------------------------------------------------------------------------------------- MAIN LAYOUT -------------------------------------------------------------------------------------------------------------------------------------------*/
 main {
+  margin-top: 80px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100vw;
-  flex-direction:column;
 }
 
-nav {
+#home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin: 0 1rem 1rem 1rem;
-  padding: 0;
+  width: 100%;
+  height: 300px;
+  background-color: #f7f7f7; 
+
 }
 
-nav ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+#welcome-text {
+  opacity: 1;
+  transition: opacity var(--transition-medium);
 }
 
-li {
-  display: inline;
-}
-
-li a {
-  text-decoration: none;
-  margin: 1.5rem 1rem 0 1rem;
-  color: var(--secondary);
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-a:hover {
-  color: grey;
-}
-
+/*-------------------------------------------------------------------------------------------------- CONTAINER & CONTENT BLOCKS -------------------------------------------------------------------------------------------------------------------------------------------*/
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex: 1;
   min-width: 20%;
-  border: 2px solid var(--primary);
   margin: 5%;
+  border: 2px solid var(--primary);
   background-color: var(--secondary);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow var(--transition-medium), transform var(--transition-medium);
 }
 
 .container:hover {
@@ -97,68 +182,16 @@ a:hover {
   transform: scale(1.02);
 }
 
-.content {
+.content, .options {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 100%;
-}
-
-.options {
-  display: flex;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
   background-color: var(--secondary);
-
 }
 
-@keyframes slideInFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInFromRight {
-  from {
-    opacity: 0;
-    transform: translateX(60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-#buttons.animate-left .colors {
-  animation: slideInFromLeft 0.6s ease both;
-}
-
-#buttons.animate-right .colors {
-  animation: slideInFromRight 0.6s ease both;
-}
-
-.statement.fade-out {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.balloon1 {
-  width: 100%;
-  display: flex;
-}
-
-.statement {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
+/*-------------------------------------------------------------------------------------------------- COLOR SWATCHES & INTERACTIVE BUTTONS -------------------------------------------------------------------------------------------------------------------------------------------*/
 #buttons {
   display: flex;
   flex-wrap: wrap;
@@ -167,7 +200,7 @@ a:hover {
   padding: 1rem;
   max-width: 700px;
   margin: 0 auto;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
 }
 
 .colors {
@@ -176,8 +209,8 @@ a:hover {
   border-radius: 50%;
   border: var(--swatch-border);
   background-color: transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .colors:hover {
@@ -188,15 +221,17 @@ a:hover {
 .colors.selected {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px var(--primary);
+  transform: scale(1.15);
 }
 
+/*-------------------------------------------------------------------------------------------------- ARROW NAVIGATION CONTROLS -------------------------------------------------------------------------------------------------------------------------------------------*/
 #leftArrow, #rightArrow {
+  background: transparent;
   border: none;
-  background-color: var(--secondary);
   cursor: pointer;
 }
 
-#rightArrow img, #leftArrow img {
+#leftArrow img, #rightArrow img {
   width: 30px;
   height: 30px;
   display: block;
@@ -208,32 +243,147 @@ a:hover {
   justify-content: space-evenly;
 }
 
+/*-------------------------------------------------------------------------------------------------- SEE MORE & MAXIMIZE VIEW -------------------------------------------------------------------------------------------------------------------------------------------*/
 .seeMore {
-  cursor: pointer;
   width: 100%;
+  cursor: pointer;
 }
 
 .seeMore button {
   width: 100%;
   background-color: var(--primary);
   color: var(--secondary);
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  border: none;
+  padding: 0.75rem;
+  font-family: var(--font-main);
+  font-size: var(--font-button);
+  cursor: pointer;
 }
 
-.arch {
-  margin-top: .5%;
+.maximise {
+  width: 100%;
+  background-color: var(--accent);
+  padding: 0;
+  margin: 0;
+  border: none;
 }
 
-p {
-  font-size: 1.5rem;
+.maximise .arch {
+  width: 30%;
+  height: auto;
+  margin-top: 0.5%;
 }
 
-#services {
+.maximise .arch svg {
+  width: 100%;
+  height: auto;
+}
+
+/*-------------------------------------------------------------------------------------------------- ANIMATIONS & TRANSITIONS -------------------------------------------------------------------------------------------------------------------------------------------*/
+@keyframes slideInFromLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hover {
+  to { transform: scale(1.1); }
+}
+
+#buttons.animate-left .colors { animation: slideInFromLeft var(--transition-slow) both; }
+#buttons.animate-right .colors { animation: slideInFromRight var(--transition-slow) both; }
+
+.statement {
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
+}
+
+.statement.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*-------------------------------------------------------------------------------------------------- LOADING OVERLAY -------------------------------------------------------------------------------------------------------------------------------------------*/
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 8px solid rgba(255, 255, 255, 0.3);
+  border-top: 8px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/*-------------------------------------------------------------------------------------------------- ACTION BUTTONS (Back, Save, Share) -------------------------------------------------------------------------------------------------------------------------------------------*/
+.back, .save, .share {
+  position: absolute;
+  top: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.back  { left: 10px; }
+.save  { right: 50px; }
+.share { right: 10px; height: 34px; }
+
+.back img,
+.save img,
+.share img {
+  width: 28px;
+  height: 28px;
+  will-change: transform;
+}
+
+.back img:hover,
+.save img:hover,
+.share img:hover {
+  animation: hover 0.3s ease forwards;
+}
+
+/*-------------------------------------------------------------------------------------------------- SHOP & ARCH DISPLAY (RESTORED ORIGINAL) -------------------------------------------------------------------------------------------------------------------------------------------*/
+#shop {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
+  background-color: #fff;
+  height: auto;
+}
+
+.arch {
+  margin-top: 0.5%;
 }
 
 svg {
@@ -242,141 +392,143 @@ svg {
   pointer-events: none;
 }
 
-.hideOptions, .hide {
-  display: none;
-}
+/*-------------------------------------------------------------------------------------------------- UTILITY CLASSES -------------------------------------------------------------------------------------------------------------------------------------------*/
+.hide, .hideOptions { display: none; }
+.balloon1 { width: 100%; display: flex; }
 
-.maximise {
-  width: 100%;
-  height: auto;
-  border: none;
-  justify-content: flex-start;
-  background-color: var(--accent);
-  padding: 0;
-  margin: 0;
-}
-
-.maximise .arch {
-  height: auto;
-  width: 30%;
-}
-
-.maximise .arch svg {
-  height: auto;
-}
-
+/*-------------------------------------------------------------------------------------------------- GENERAL BUTTON STYLES -------------------------------------------------------------------------------------------------------------------------------------------*/
+button,
 .options button {
-  cursor: pointer;
-}
-
-button {
-  border: 1px solid var(--primary);
+  font-family: var(--font-main);
+  font-size: var(--font-button);
+  font-weight: var(--font-normal);
   padding: 0.5rem 1rem;
-  font-size: 1rem;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  border: 1px solid var(--primary);
+  background-color: var(--secondary);
+  color: var(--text);
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color var(--transition-medium);
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+button:hover {
+  background-color: var(--hover);
 }
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
+/*-------------------------------------------------------------------------------------------------- SERVICES SECTION (WIDER CARDS) -------------------------------------------------------------------------------------------------------------------------------------------*/
+#services {
+  padding: 4rem 2rem;
+  background-color: #fff;
+  text-align: center;
+  color: #666;
 }
 
-
-
-.colors.selected {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px var(--primary);
-  transform: scale(1.15);
-}
-#loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;       /* Full viewport width */
-  height: 100vh;      /* Full viewport height */
-  display: flex;
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 450px));
+  gap: 2rem;
   justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  background-color:#f5f5f5
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-.loader {
-  border: 8px solid rgba(255, 255, 255, 0.3);
-  border-top: 8px solid var(--primary);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
+.service-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform var(--transition-medium);
 }
 
-.back{
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-.save, .share {
-  position: absolute;
-  top: 10px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-.save{
-  right:50px;
-}
-.share{
-  right:10px;
-  height:34px;
+.service-card:hover {
+  transform: translateY(-5px);
 }
 
-.back img, .save img, .share img{
-  will-change: transform;
+/*-------------------------------------------------------------------------------------------------- REVIEWS SECTION (SIDE MARGINS) -------------------------------------------------------------------------------------------------------------------------------------------*/
+#reviews h2 {
+  text-align: center;
 }
 
-.back img:hover, .save img:hover, .share img:hover{
-    animation: hover 0.3s ease forwards;
-}
-@keyframes hover {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1); }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-#home{
+#reviewSection {
+  margin-top: 2rem;
+  color: rgb(120, 120, 120);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-evenly;
+  background-color: #f9f9f9;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem 5%;
+  max-width: 100%;
+}
+
+.review {
+  font-style: italic;
+  color: rgb(120, 120, 120);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  min-width: 280px;
+  flex: 1;
+}
+
+/*-------------------------------------------------------------------------------------------------- CONTACT FORM (THINNER & CENTERED) -------------------------------------------------------------------------------------------------------------------------------------------*/
+#contact {
+  padding: 3rem 1rem;
+  background-color: #f9f9f9;
+  display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 300px;
-  background-color: var(--accent);
-  border-bottom: 1px solid rgb(98, 98, 98);
+  align-items: center;
 }
-#welcome-text{
-  font-size: 1.8rem;
-  font-weight: 100;
-  color:rgb(98, 98, 98);
-  opacity: 1;
-  transition: opacity 0.5s ease;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+
+#contact-form {
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+#contact-form label {
+  font-weight: 500;
+  color: #444;
+}
+
+#contact-form input,
+#contact-form textarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: var(--font-body);
+  resize: vertical;
+  transition: border-color var(--transition-medium);
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+#contact-form textarea {
+  min-height: 150px;
+}
+
+#contact-form button {
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: var(--font-button);
+  cursor: pointer;
+  transition: background-color var(--transition-medium);
+}
+
+#contact-form button:hover {
+  background-color: #333;
 }
