@@ -142,12 +142,19 @@ switch(archId){
   document.querySelectorAll(".colors").forEach(btn => {
     const color = btn.dataset.color;
     btn.style.backgroundColor = color;
-    btn.style.border = "1px solid #000"; 
     btn.style.width = "30px";            
     btn.style.height = "30px";
     btn.style.cursor = "pointer";
     btn.style.margin = "1%";
+    btn.style.border = "none";
+    btn.style.boxShadow = "0 1px 3px rgba(0, 0, 0, 0.2)";
+    btn.addEventListener("mouseover", () => {
+      btn.style.transform = "scale(1.1)";
     });
+    btn.addEventListener("mouseout", () => {
+      btn.style.transform = "scale(1)";
+    });
+  });
 }
 
 //Delare all gloabal variables
@@ -161,19 +168,6 @@ let currentSelection ={"firstColor":null, "secondColor":null, "thirdColor":null}
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(link => {
-        link.classList.toggle("active", link.getAttribute("href").slice(1) === entry.target.id);
-      });
-    }
-  });
-}, {
-  threshold: 0.3
-});
-
-sections.forEach(section => observer.observe(section));
 //--------------------------------------------------------------------------------------------------ROTATE THE WELCOME TEXT-------------------------------------------------------------------------------------------------------------------------------------------
 if (window.location.pathname.includes("index.html")) {
 
