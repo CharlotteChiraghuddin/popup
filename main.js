@@ -3,6 +3,7 @@ window.onload =function(){
     document.getElementById("loading").style.display="none";
 }
 
+if (window.location.pathname.includes("shop.html")) {
 //fetching arch1 images
 fetch("assets/media/arch1single.svg")
 .then(response=> response.text())
@@ -61,18 +62,95 @@ fetch("assets/media/arch3triple.svg")
 .then(svg=>{
     document.getElementById("arch9").innerHTML=svg;
 });
+}
+
+if (window.location.pathname.includes("seeMore.html")) {
+  const params = new URLSearchParams(window.location.search);
+  const archId = params.get("archId");
+
+switch(archId){
+    case "arch1Single":
+        fetch("assets/media/arch1single.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+    case "arch1Double":
+        fetch("assets/media/arch1double.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+    
+    case "arch1Triple":
+        fetch("assets/media/arch1triple.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+        
+    case "arch2Single":
+        fetch("assets/media/arch2single.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+    case "arch2Double":
+        fetch("assets/media/arch2double.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+    case "arch2Triple":
+        fetch("assets/media/arch2triple.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+    case "arch3Single":
+        fetch("assets/media/arch3single.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+    case "arch3Double":
+        fetch("assets/media/arch3double.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+    case "arch3Triple":
+        fetch("assets/media/arch3triple.svg")
+        .then(response=> response.text())
+        .then(svg=>{
+            document.getElementById("archSelectionImage").innerHTML=svg;
+        });
+        break;
+    default:
+        console.error("Invalid archId parameter");
+        break;
+
+}
+  document.querySelectorAll(".colors").forEach(btn => {
+    const color = btn.dataset.color;
+    btn.style.backgroundColor = color;
+    btn.style.border = "1px solid #000"; 
+    btn.style.width = "30px";            
+    btn.style.height = "30px";
+    btn.style.cursor = "pointer";
+    btn.style.margin = "1%";
+    });
+}
 
 //Delare all gloabal variables
-//colors
-let blacks = document.querySelectorAll(".black");
-let whites = document.querySelectorAll(".white");
-let reds = document.querySelectorAll(".red");
-let oranges = document.querySelectorAll(".orange");
-let yellows = document.querySelectorAll(".yellow");
-let greens = document.querySelectorAll(".green");
-let blues = document.querySelectorAll(".blue");
-let indigos = document.querySelectorAll(".indigo");
-let violets = document.querySelectorAll(".violet");
 let welcomeText = ["Your event, your style — we make it happen","No matter the occasion, we make it special","Designed for every moment worth celebrating","Whatever the celebration, we’re here to elevate it"];
 
 let seeMoreBtn = document.querySelectorAll(".seeMore");
@@ -97,6 +175,7 @@ const observer = new IntersectionObserver((entries) => {
 
 sections.forEach(section => observer.observe(section));
 //--------------------------------------------------------------------------------------------------ROTATE THE WELCOME TEXT-------------------------------------------------------------------------------------------------------------------------------------------
+if (window.location.pathname.includes("index.html")) {
 
 let welcomeTextIndex = 0;
 function rotateWelcomeText() {
@@ -116,9 +195,82 @@ function rotateWelcomeText() {
 }
 
 setInterval(rotateWelcomeText, 4000);
+}
 
 //--------------------------------------------------------------------------------------------------HANDLE CLICK OF SEE MORE BUTTON-------------------------------------------------------------------------------------------------------------------------------------------
-function handleClick(e){        
+function handleClick(e){
+  console.log(e.target.parentNode.parentNode.parentNode.id);
+  const archId = e.target.parentNode.parentNode.parentNode.id;
+  window.location.href = `seeMore.html?archId=${archId}`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.pathname.includes("seeMore.html")) {
+    const params = new URLSearchParams(window.location.search);
+    const newID = params.get("archId");
+
+    if (newID) {
+      const target = document.getElementById("archSelection");
+      if (target) {
+        target.id = newID;
+        if(newID.includes("Single")){
+          document.getElementById("arrowContainer").querySelector("#leftArrow").classList.add("hide");
+          document.getElementById("arrowContainer").querySelector("#rightArrow").classList.add("hide");
+          document.getElementById("arrowContainer").querySelector(".statement").textContent="Pick your color";
+        }else if(newID.includes("Double")||newID.includes("Triple")){
+          document.getElementById("arrowContainer").querySelector(".statement").textContent="Pick your first color";
+          document.getElementById("arrowContainer").querySelector("#leftArrow").classList.remove("hide");
+          document.getElementById("arrowContainer").querySelector("#rightArrow").classList.remove("hide");
+        }
+    }
+  
+
+  let rightArrow = document.getElementById("rightArrow");
+  let leftArrow = document.getElementById("leftArrow");
+  rightArrow.addEventListener("click",rightArrowClick);
+  leftArrow.addEventListener("click",leftArrowClick);
+
+                const colors = document.querySelectorAll(".colors");
+                const currentContainerId = new URLSearchParams(window.location.search).get("archId");
+                colors.forEach(color=>{
+                    color.addEventListener("click", (event)=>{
+                        if(currentContainerId.includes("Single")){
+                            handleColorClick(event);
+                        }else if(currentContainerId.includes("Double")){
+                            handleColorClickDouble(event);
+                        }else if(currentContainerId.includes("Triple")){
+                            handleColorClickTriple(event);
+                        }
+                })
+                })
+              }
+    document.getElementById("back").addEventListener("click", goBack);}
+});
+  /* let currentContainerId = e.target.parentNode.parentNode.parentNode.id;
+                let picks = container.querySelector(".picks");
+                if(currentContainerId.includes("Single")){
+                    picks.innerHTML = 
+                            `<div id="arrowContainer">
+                                <button id="leftArrow" class="hide"><img src="./assets/media/leftArrow.svg"></button>
+                                <p class="statement">Pick your color</p>
+                                <button id="rightArrow" class="hide"><img src="./assets/media/rightArrow.svg"></button>
+                            </div>`
+                }else{
+                    picks.innerHTML = 
+                            `<div id="arrowContainer">
+                                <button id="leftArrow"><img src="./assets/media/leftArrow.svg"></button>
+                                <p class="statement">Pick your first color</p>
+                                <button id="rightArrow"><img src="./assets/media/rightArrow.svg"></button>
+                            </div>`
+                }
+                let rightArrow = document.getElementById("rightArrow");
+                let leftArrow = document.getElementById("leftArrow");
+                rightArrow.addEventListener("click",rightArrowClick);
+                leftArrow.addEventListener("click",leftArrowClick);
+                */
+
+
+/*function handleClick(e){        
         let currentContainerId = e.target.parentNode.parentNode.parentNode.id;
         e.target.classList.add("hide");
         console.log(e.target.parentNode.parentNode.closest(".goBack"));
@@ -198,15 +350,7 @@ function handleClick(e){
                 })
                 })
 
-                document.querySelectorAll(".colors").forEach(btn => {
-                    const color = btn.dataset.color;
-                    btn.style.backgroundColor = color;
-                    btn.style.border = "1px solid #000"; 
-                    btn.style.width = "30px";            
-                    btn.style.height = "30px";
-                    btn.style.cursor = "pointer";
-                    btn.style.margin = "1%";
-                    });
+
 
                 } else {
                 console.warn("No element with .hideOptions found inside container");
@@ -214,7 +358,7 @@ function handleClick(e){
             }else{
                 container.classList.add("hide");
             }
-        })}
+        })}*/
 
 //add event listener to each option for click
 seeMoreBtn.forEach(btn=>{
@@ -418,58 +562,11 @@ function leftArrowClick() {
 
 //--------------------------------------------------------------------------------------------------HANDLE CLICK OF GO BACK BUTTON---------------------------------------------------------------------------------------------------------------------------------------------------
 function goBack() {
-  containers.forEach(container => {
-    container.classList.remove("maximise");
-    container.classList.remove("hide");
-
-    document.getElementById("home").style.display = "flex";
-    const colors = document.getElementById("buttons");
-    const backBtn = container.querySelector(".back");
-    const saveBtn = container.querySelector(".save");
-    const shareBtn = container.querySelector(".share");
-    const picks = container.querySelector(".picks");
-    const options = container.querySelector(".hideOptions");
-    const seeMoreBtn = container.querySelector(".seeMore"); 
-
-    if (colors) colors.remove();
-    if (backBtn) backBtn.classList.add("hide");
-    if (saveBtn) saveBtn.classList.add("hide");
-    if (shareBtn) shareBtn.classList.add("hide");
-    if (picks) picks.innerHTML = "";
-
-    if (options) {
-      options.classList.add("hideOptions");
-      const buttons = options.querySelector("#buttons");
-      if (buttons) buttons.remove();
-    }
-
-    if (seeMoreBtn) seeMoreBtn.querySelector("button").classList.remove("hide");
-  });
+  //reset all saved color selections
+  currentSelection = {"firstColor":null, "secondColor":null, "thirdColor":null};
+  window.location.href = "shop.html";
 }
 
-const sectionIds = [
-  "home",
-  "services",
-  "reviews",
-  "contact",
-  "gallery",
-  "shop",
-  "calendar",
-  "basket"
-];
-
-sectionIds.forEach(id => {
-  const link = document.querySelector(`a[href="#${id}"]`);
-  const target = document.getElementById(id);
-
-  if (link && target) {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      goBack();
-      target.scrollIntoView({ behavior: "smooth" });
-    });
-  }
-});
 //--------------------------------------------------------------------------------------------------SCROLL FUNCTIONALITY-------------------------------------------------------------------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   const revealElements = document.querySelectorAll(".reveal");

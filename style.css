@@ -345,7 +345,7 @@ main {
 }
 
 /*-------------------------------------------------------------------------------------------------- ACTION BUTTONS (Back, Save, Share) -------------------------------------------------------------------------------------------------------------------------------------------*/
-.back, .save, .share {
+#back, #save, #share {
   position: absolute;
   top: 10px;
   border: none;
@@ -353,21 +353,21 @@ main {
   cursor: pointer;
 }
 
-.back  { left: 10px; }
-.save  { right: 50px; }
-.share { right: 10px; height: 34px; }
+#back  { left: 10px; }
+#save  { right: 50px; }
+#share { right: 10px; height: 34px; }
 
-.back img,
-.save img,
-.share img {
+#back img,
+#save img,
+#share img {
   width: 28px;
   height: 28px;
   will-change: transform;
 }
 
-.back img:hover,
-.save img:hover,
-.share img:hover {
+#back img:hover,
+#save img:hover,
+#share img:hover {
   animation: hover 0.3s ease forwards;
 }
 
