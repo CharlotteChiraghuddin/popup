@@ -62,6 +62,23 @@ fetch("assets/media/arch3triple.svg")
 .then(svg=>{
     document.getElementById("arch9").innerHTML=svg;
 });
+
+//--------------------------------------------------------------------------------------------------HOVER CONTAINER BEHAVIOUR-------------------------------------------------------------------------------------------------------------------------------------------
+const content = document.querySelectorAll(".content");
+content.forEach(container=>{
+    container.addEventListener("mouseover", ()=>{
+        let currentContainer = container.closest(".archContainer");
+        currentContainer.classList.add("hovered");
+    });
+    container.addEventListener("mouseout", ()=>{
+        let currentContainer = container.closest(".archContainer");
+        currentContainer.classList.remove("hovered");
+    });
+    container.addEventListener("click", (event) => {
+        handleClick(event);
+    });
+})
+
 }
 
 if (window.location.pathname.includes("seeMore.html")) {
@@ -155,19 +172,18 @@ switch(archId){
       btn.style.transform = "scale(1)";
     });
   });
+  
 }
 
 //Delare all gloabal variables
 let welcomeText = ["Your event, your style — we make it happen","No matter the occasion, we make it special","Designed for every moment worth celebrating","Whatever the celebration, we’re here to elevate it"];
-
-let seeMoreBtn = document.querySelectorAll(".seeMore");
-let containers = document.querySelectorAll(".container");
-
+let containers = document.querySelectorAll(".archContainer");
 let currentSelection ={"firstColor":null, "secondColor":null, "thirdColor":null}
-
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
-//--------------------------------------------------------------------------------------------------ROTATE THE WELCOME TEXT-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------NAV LINKS ACTIVE STATE-------------------------------------------------------------------------------------------------------------------------------------------
 //change nav style when in different section
 navLinks.forEach(link=>{
     const linkHref = link.getAttribute("href").replace("./", "");
@@ -202,8 +218,9 @@ setInterval(rotateWelcomeText, 4000);
 
 //--------------------------------------------------------------------------------------------------HANDLE CLICK OF SEE MORE BUTTON-------------------------------------------------------------------------------------------------------------------------------------------
 function handleClick(e){
-  console.log(e.target.parentNode.parentNode.parentNode.id);
-  const archId = e.target.parentNode.parentNode.parentNode.id;
+  const arch=e.target.closest(".archContainer");
+  const archId = arch.id;
+  console.log(archId);
   window.location.href = `seeMore.html?archId=${archId}`;
 }
 
@@ -249,125 +266,6 @@ document.addEventListener("DOMContentLoaded", () => {
               }
     document.getElementById("back").addEventListener("click", goBack);}
 });
-  /* let currentContainerId = e.target.parentNode.parentNode.parentNode.id;
-                let picks = container.querySelector(".picks");
-                if(currentContainerId.includes("Single")){
-                    picks.innerHTML = 
-                            `<div id="arrowContainer">
-                                <button id="leftArrow" class="hide"><img src="./assets/media/leftArrow.svg"></button>
-                                <p class="statement">Pick your color</p>
-                                <button id="rightArrow" class="hide"><img src="./assets/media/rightArrow.svg"></button>
-                            </div>`
-                }else{
-                    picks.innerHTML = 
-                            `<div id="arrowContainer">
-                                <button id="leftArrow"><img src="./assets/media/leftArrow.svg"></button>
-                                <p class="statement">Pick your first color</p>
-                                <button id="rightArrow"><img src="./assets/media/rightArrow.svg"></button>
-                            </div>`
-                }
-                let rightArrow = document.getElementById("rightArrow");
-                let leftArrow = document.getElementById("leftArrow");
-                rightArrow.addEventListener("click",rightArrowClick);
-                leftArrow.addEventListener("click",leftArrowClick);
-                */
-
-
-/*function handleClick(e){        
-        let currentContainerId = e.target.parentNode.parentNode.parentNode.id;
-        e.target.classList.add("hide");
-        console.log(e.target.parentNode.parentNode.closest(".goBack"));
-        containers.forEach(container=>{
-            if(container.id === currentContainerId){
-                container.classList.add("maximise");
-                document.getElementById("home").style.display="none";
-                container.querySelector(".back").classList.remove("hide");
-                container.querySelector(".save").classList.remove("hide");
-                container.querySelector(".share").classList.remove("hide");
-                container.querySelector(".back").addEventListener("click", goBack);
-//-------------------------------------------------------------------------------------------------------UPDATE ARROWS-------------------------------------------------------------------------------------------------------------------------------------------------------
-                let picks = container.querySelector(".picks");
-                if(currentContainerId.includes("Single")){
-                    picks.innerHTML = 
-                            `<div id="arrowContainer">
-                                <button id="leftArrow" class="hide"><img src="./assets/media/leftArrow.svg"></button>
-                                <p class="statement">Pick your color</p>
-                                <button id="rightArrow" class="hide"><img src="./assets/media/rightArrow.svg"></button>
-                            </div>`
-                }else{
-                    picks.innerHTML = 
-                            `<div id="arrowContainer">
-                                <button id="leftArrow"><img src="./assets/media/leftArrow.svg"></button>
-                                <p class="statement">Pick your first color</p>
-                                <button id="rightArrow"><img src="./assets/media/rightArrow.svg"></button>
-                            </div>`
-                }
-                let rightArrow = document.getElementById("rightArrow");
-                let leftArrow = document.getElementById("leftArrow");
-                rightArrow.addEventListener("click",rightArrowClick);
-                leftArrow.addEventListener("click",leftArrowClick);
-
-
-//-------------------------------------------------------------------------------------------------------UPDATE COLOR OPTIONS-------------------------------------------------------------------------------------------------------------------------------------------------------                
-                const target = container.querySelector(".hideOptions");
-                if (target) {
-                target.classList.remove("hideOptions");
-                target.insertAdjacentHTML("beforeend",`
-                    <div id="buttons">
-                        <button type="button" class="colors" data-color="#000000ff" data-outline="#ffffff" aria-label="Black"></button> <!-- black -->
-                        <button type="button" class="colors" data-color="#ffffffff" data-outline="#000000ff" aria-label="White"></button> <!-- white -->
-                        <button type="button" class="colors" data-color="#FFD700" data-outline="#000000ff" aria-label="Gold"></button> <!-- gold -->
-                        <button type="button" class="colors" data-color="#ADD8E6" data-outline="#000000ff" aria-label="Baby Blue"></button> <!-- baby blue -->
-                        <button type="button" class="colors" data-color="#FFB6C1" data-outline="#000000ff" aria-label="Baby Pink"></button> <!-- baby pink -->
-                        <button type="button" class="colors" data-color="#194D19" data-outline="#000000ff" aria-label="Deep Forest Green"></button> <!-- deep forest green -->
-                        <button type="button" class="colors" data-color="#19294D" data-outline="#000000ff" aria-label="Midnight Blue"></button> <!-- midnight blue -->
-                        <button type="button" class="colors" data-color="#4D1919" data-outline="#000000ff" aria-label="Oxblood"></button> <!-- oxblood -->
-                        <button type="button" class="colors" data-color="#E2C7A6" data-outline="#000000ff" aria-label="Warm Beige"></button> <!-- warm beige -->
-                        <button type="button" class="colors" data-color="#A67C52" data-outline="#000000ff" aria-label="Warm Taupe"></button> <!-- warm taupe -->
-                        <button type="button" class="colors" data-color="#C2B280" data-outline="#000000ff" aria-label="Muted Khaki"></button> <!-- muted khaki -->
-                        <button type="button" class="colors" data-color="#B0A8B9" data-outline="#000000ff" aria-label="Dusty Lavender"></button> <!-- dusty lavender -->
-                        <button type="button" class="colors" data-color="#8FA9B9" data-outline="#000000ff" aria-label="Slate Blue"></button> <!-- slate blue -->
-                        <button type="button" class="colors" data-color="#7D9F94" data-outline="#000000ff" aria-label="Muted Teal"></button> <!-- muted teal -->
-                        <button type="button" class="colors" data-color="#A3B18A" data-outline="#000000ff" aria-label="Olive Green"></button> <!-- olive green -->
-                        <button type="button" class="colors" data-color="#D4A373" data-outline="#000000ff" aria-label="Terracotta"></button> <!-- terracotta -->
-                        <button type="button" class="colors" data-color="#E6CCB2" data-outline="#000000ff" aria-label="Sand"></button> <!-- sand -->
-                        <button type="button" class="colors" data-color="#B5838D" data-outline="#000000ff" aria-label="Muted Rose"></button> <!-- muted rose -->
-                        <button type="button" class="colors" data-color="#6D6875" data-outline="#000000ff" aria-label="Smoky Plum"></button> <!-- smoky plum -->
-                        <button type="button" class="colors" data-color="#9CA3AF" data-outline="#000000ff" aria-label="Cool Grey"></button> <!-- cool grey -->
-                        <button type="button" class="colors" data-color="#94A3B8" data-outline="#000000ff" aria-label="Steel Blue"></button> <!-- steel blue -->
-                        <button type="button" class="colors" data-color="#64748B" data-outline="#000000ff" aria-label="Graphite Blue"></button> <!-- graphite blue -->
-                        <button type="button" class="colors" data-color="#F5E6CC" data-outline="#000000ff" aria-label="Peach Cream"></button> <!-- peach cream -->
-                        <button type="button" class="colors" data-color="#A2C2A2" data-outline="#000000ff" aria-label="Sage Green"></button> <!-- sage green -->
-                    </div>`);
-                const colors = container.querySelectorAll(".colors");
-
-                colors.forEach(color=>{
-                    color.addEventListener("click", (event)=>{
-                        if(currentContainerId.includes("Single")){
-                            handleColorClick(event);
-                        }else if(currentContainerId.includes("Double")){
-                            handleColorClickDouble(event);
-                        }else if(currentContainerId.includes("Triple")){
-                            handleColorClickTriple(event);
-                        }
-                })
-                })
-
-
-
-                } else {
-                console.warn("No element with .hideOptions found inside container");
-                }
-            }else{
-                container.classList.add("hide");
-            }
-        })}*/
-
-//add event listener to each option for click
-seeMoreBtn.forEach(btn=>{
-    btn.addEventListener("click", (event) => handleClick(event));
-});
-//add event listener to right arrow
 
 //--------------------------------------------------------------------------------------------------HANDLE COLOUR CLICKS-------------------------------------------------------------------------------------------------------------------------------------------
 function handleColorClick(e){
@@ -393,7 +291,7 @@ function handleColorClick(e){
 
 function handleColorClickDouble(e){
    const colors = document.querySelectorAll(".colors");
-  const layer = e.target.closest(".container").querySelector(".arch svg");
+  const layer = e.target.closest(".archContainer").querySelector(".arch svg");
   const ellipses = layer.querySelectorAll("ellipse");
   const selectedColor = e.target.dataset.color;
   const outline = e.target.dataset.outline;
@@ -453,7 +351,7 @@ function handleColorClickTriple(e) {
 //--------------------------------------------------------------------------------------------------UPDATE TEXT---------------------------------------------------------------------------------------------------------------------------------------------------
 function updateStatementText(newText, direction) {
   const statement = document.querySelector("#arrowContainer .statement");
-  let currentContainer = statement.closest(".container");
+  let currentContainer = statement.closest(".archContainer");
   console.log(currentContainer);
   const buttons = document.querySelector("#buttons");
   const options = buttons.parentNode.querySelector(".picks");
@@ -494,7 +392,7 @@ function rightArrowClick() {
       }
     })
   } else if (text === "Pick your second color") {
-    if(statement.closest(".container").id.includes("Double")){
+    if(statement.closest(".archContainer").id.includes("Double")){
       updateStatementText("Pick your first color", "right");
       colors.forEach(colorBtn=>{
         colorBtn.classList.remove("selected");
@@ -527,7 +425,7 @@ function leftArrowClick() {
   const text = statement.textContent;
   const colors = document.querySelectorAll(".colors");
   if (text === "Pick your first color") {
-    if(statement.closest(".container").id.includes("Double")){
+    if(statement.closest(".archContainer").id.includes("Double")){
       updateStatementText("Pick your second color", "left");
       colors.forEach(colorBtn=>{
         colorBtn.classList.remove("selected");
