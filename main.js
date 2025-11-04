@@ -167,7 +167,16 @@ let currentSelection ={"firstColor":null, "secondColor":null, "thirdColor":null}
 
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
+//--------------------------------------------------------------------------------------------------ROTATE THE WELCOME TEXT-------------------------------------------------------------------------------------------------------------------------------------------
+//change nav style when in different section
+navLinks.forEach(link=>{
+    const linkHref = link.getAttribute("href").replace("./", "");
+    const currentPage = window.location.pathname.split("/").pop();
 
+  if(linkHref === currentPage){
+    link.classList.add("active");
+  }
+})
 //--------------------------------------------------------------------------------------------------ROTATE THE WELCOME TEXT-------------------------------------------------------------------------------------------------------------------------------------------
 if (window.location.pathname.includes("index.html")) {
 

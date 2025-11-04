@@ -119,6 +119,11 @@ nav a:hover {
   color: #ddd;
 }
 
+nav a.active{
+  border-bottom: 2px solid black;
+  padding-bottom:26px;
+}
+
 
 /* TITLE: 2rem, SPACED ABOVE */
 #name {
