@@ -254,9 +254,10 @@ main {
 }
 
 .colors.selected {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px var(--primary);
-  transform: scale(1.15);
+  padding: 1rem;
+  background-color: var(--main); 
+  outline: 1px solid black;          
+  outline-offset: 5px;                 
 }
 
 /*-------------------------------------------------------------------------------------------------- ARROW NAVIGATION CONTROLS -------------------------------------------------------------------------------------------------------------------------------------------*/

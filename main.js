@@ -320,7 +320,7 @@ function handleColorClickDouble(e){
 
 function handleColorClickTriple(e) {
   const colors = document.querySelectorAll(".colors");
-  const layer = e.target.closest(".container").querySelector(".arch svg");
+  const layer = e.target.closest(".archContainer").querySelector(".arch svg");
   const ellipses = layer.querySelectorAll("ellipse");
   const selectedColor = e.target.dataset.color;
   const outline = e.target.dataset.outline;
