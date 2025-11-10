@@ -1,8 +1,47 @@
 //onload hide loading screen
-window.onload =function(){
-    document.getElementById("loading").style.display="none";
+window.onload = function () {
+  const loadingScreen = document.getElementById("loading");
+  if (loadingScreen) {
+    loadingScreen.style.display = "none";
+  }
+};
+const header = document.querySelector("header");
+if (window.innerWidth <= 768) {
+    console.log(header);
+    header.innerHTML=
+    `<div id="more" onclick="toggleNav()">
+    <img src="./assets/media/more.png">
+    </div>`
+}else{
+  header.innerHTML = 
+  `<div class="header-wrapper">
+            <div id="sec1">
+                <nav>
+                    <ul>
+                        <li><a class="nav-link" href="./index.html">Home</a></li>
+                        <li><a class="nav-link" href="./services.html">Services</a></li>
+                        <li><a class="nav-link" href="./shop.html">Shop</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="name">
+                <p>POPUP</p>
+            </div>
+            <div id="sec2">
+                <nav>
+                    <ul>
+                        <li><a class="nav-link" href="./reviews.html">Reviews</a></li>
+                        <li><a class="nav-link" href="./contact.html">Contact</a></li>
+                        <li><a class="nav-link" href="./basket.html">Basket</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>`
 }
 
+function toggleNav(){
+  console.log("toggle button clicked");
+}
 //--------------------------------------------------------------------------------------------------FETCH SVG IMAGES FOR SHOP PAGE-------------------------------------------------------------------------------------------------------------------------------------------
 if (window.location.pathname.includes("shop.html")) {
 //fetching arch1 images
