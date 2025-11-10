@@ -41,15 +41,57 @@
         </div>
 
     </header>
-    <main>
-        <div id="loading">
+<main>
+    <div id="loading">
             <div class="loader"></div>
-        </div>
-        <section id="home">
-            <p id="welcome-text">Your event, your style — we make it happen</p>
-        </section>
+    </div>
+  <!-- HERO SECTION -->
+  <section id="home">
+    <div id="banner">
+      <p id="welcome-text">Your event, your style — we make it happen</p>
+      <div id="contact-us">
+        <a href="./contact.html"><button>Get In Touch</button></a>
+        <a href="./index.html"><button id="whatsapp"><img src="./assets/media/whatsapp.png">&nbsp;WhatsApp</button></a>
+      </div>
+    </div>
+  </section>
 
-    </main>
+  <!-- TOP SELLERS SECTION -->
+  <section id="topSellers">
+    <div class="section-header">
+      <h2>Top Sellers</h2>
+    </div>
+    <div id="topSellerObjects">
+      <div class="archContainer reveal" id="arch2Triple">
+        <div id="arch6" class="arch" onclick="handleClick(event)"></div>
+      </div>
+      <div class="archContainer reveal" id="arch1Triple">
+        <div id="arch3" class="arch" onclick="handleClick(event)"></div>
+      </div>
+      <div class="archContainer reveal" id="arch3Triple">
+        <div id="arch9" class="arch" onclick="handleClick(event)"></div>
+      </div>
+    </div>
+    <a href="./shop.html"><button id="see-more-button">See More</button></a>
+  </section>
+
+  <!-- WHY SECTION -->
+  <section id="why">
+    <div class="whyContainer">
+      <div id="background">
+        <img src="./assets/media/background.jpg" alt="Background" />
+      </div>
+      <div id="overlay">
+        <div id="content">
+            <h1>Why choose POPUP?</h1>
+            <p>Hi, I’m Lauren — and I’m passionate about turning ordinary spaces into extraordinary celebrations. I specialize in creating custom balloon arches that bring color, joy, and elegance to any event. Whether it’s a birthday, wedding, or corporate gathering, I work closely with you to design something that reflects your style and makes your guests say “wow.”
+            Every arch I create is crafted with care, high-quality materials, and a whole lot of love. Let me help make your special day unforgettable — one balloon at a time.
+            </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
     <script src="./main.js"></script>
 </body>
 </html>

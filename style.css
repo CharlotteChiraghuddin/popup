@@ -22,11 +22,11 @@
   --swatch-size: 32px;
   --swatch-border: 2px solid var(--accent);
   --font-main: 'HelveticaNeue', Arial, sans-serif;
-  --font-heading: 1.4rem; /*welcome txt*/
+  --font-heading: 1.8rem;
   --font-subheading: 1.2rem;
   --font-body: 1rem;
   --font-button: 0.8rem;
-  --font-nav: 0.9rem;
+  --font-nav: 1.2rem;
   --font-light: 200;
   --font-normal: 400;
   --font-semibold: 600;
@@ -57,7 +57,7 @@ html, body {
   color: var(--text);
 }
 
-/*-------------------------------------------------------------------------------------------------- TYPOGRAPHY (Uniform Across Site) -------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------- TYPOGRAPHY -------------------------------------------------------------------------------------------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6,
 #welcome-text,
 #reviews h2,
@@ -98,26 +98,20 @@ header {
   height: 80px;
 }
 
-/* LEFT & RIGHT NAVIGATION */
 #sec1 nav ul,
 #sec2 nav ul {
   display: flex;
   gap: 1.5rem;
   list-style: none;
-  margin: 0 0 1.5rem 0;        /* MARGIN UNDERNEATH NAV LINKS */
+  margin: 0 0 1.5rem 0;
   padding: 0;
-}
-
-#sec1 nav li,
-#sec2 nav li {
-  display: inline-block;
 }
 
 nav a {
   color: var(--primary);
   text-decoration: none;
   font-size: var(--font-nav);
-  font-weight: var(--font-light);                    /* LIGHT NAV LINKS */
+  font-weight: var(--font-light);
   padding: 0.25rem 1rem;
   transition: color var(--transition-fast);
 }
@@ -131,8 +125,6 @@ nav a.active{
   padding-bottom:26px;
 }
 
-
-/* TITLE: 2rem, SPACED ABOVE */
 #name {
   display: flex;
   justify-content: center;
@@ -143,10 +135,10 @@ nav a.active{
 }
 
 #name p {
-  margin: 0.5rem 0 0 0;                 /* MARGIN ABOVE TITLE */
+  margin: 0.5rem 0 0 0;
   padding: 0;
   font-weight: 200;
-  font-size: var(--font-heading);                    /* EXACTLY 2rem */
+  font-size: var(--font-heading);
   color: var(--primary);
   line-height: 1;
   letter-spacing: 0.08em;
@@ -158,43 +150,254 @@ main {
   margin-top: 80px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 100vw;
 }
 
+/* ---------- HERO SECTION (FULL BLEED BANNER) ---------- */
 #home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  position: relative;
   width: 100%;
-  height: 300px;
-  background-color: var(--main); 
+  background-color: var(--main);
+  padding: 0;
+  overflow: hidden;
+}
 
+#banner {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-color: black;
+  color: white;
+  padding: 6rem 2rem;
+  text-align: center;
+  display: flex;
+  justify-content:space-between;
+  gap: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 #welcome-text {
+  font-size: var(--font-heading);
+  font-weight: 300;
+  max-width: 900px;
+  margin: 0;
+  line-height: 1.4;
   opacity: 1;
   transition: opacity var(--transition-medium);
 }
 
-/*-------------------------------------------------------------------------------------------------- CONTAINER & CONTENT BLOCKS -------------------------------------------------------------------------------------------------------------------------------------------*/
-.archContainer {
-  position:relative;
+#contact-us {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top:3rem;
+  margin-right:3rem;
+}
+
+#contact-us button {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.8rem;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 160px;
+  height: 50px;
+  justify-content: center;
+  box-shadow:0 8px 12px rgba(255, 255, 255, 0.2);
+}
+
+#contact-us button:hover {
+  background: #f0f0f0;
+  transform: translateY(-3px);
+
+}
+
+#contact-us a {
+  text-decoration: none;
+}
+
+#whatsapp img {
+  width: 22px;
+  height: 22px;
+}
+
+/* ---------- TOP SELLERS SECTION (FULL WIDTH, EQUAL HEIGHT) ---------- */
+#topSellers {
+  width: 100%;
+  padding: 5rem 0;
+  background-color: var(--main);
+  text-align: center;
+}
+
+.section-header {
+  margin-bottom: 2.5rem;
+}
+
+.section-header h2 {
+  font-weight: 500;
+  color: #444;
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+}
+
+#topSellerObjects {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+#topSellerObjects .archContainer {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 3px solid #444;
+  background-color: white;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#topSellerObjects .archContainer:hover {
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.18);
+  transform: translateY(-6px);
+  border-color: #000;
+}
+
+#topSellerObjects .arch {
+  width: 80%;
+  height: auto;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+#see-more-button {
+  margin-top: 3rem;
+  padding: 1rem 2.5rem;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+#see-more-button:hover {
+  background: #222;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* ---------- WHY SECTION ---------- */
+#why {
+  margin-top: 3rem;
+}
+
+.whyContainer {
+  position: relative;
+  width: 100%;
+}
+
+#background {
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  width: 100%;
+}
+
+#background img {
+  width: 100%;
+  height: auto;
+  display: block;
+  min-height: 400px;
+  object-fit: cover;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  z-index: 3;
+}
+
+#content{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+#content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+#content p {
+  font-size: 1.6rem;
+  max-width:50%;
+  line-height: 1.7;
+}
+
+/*-------------------------------------------------------------------------------------------------- SHOP & ARCH DISPLAY (RESTORED) -------------------------------------------------------------------------------------------------------------------------------------------*/
+#shop {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  padding: 2rem 0;
+  flex-wrap: wrap;
+  width: 100%;
+  background-color: var(--main);
+  height: auto;
+}
+
+#shop .archContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor:pointer;
+  cursor: pointer;
   flex: 1;
   min-width: 20%;
   margin: 5%;
   background-color: var(--secondary);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding:1rem 0rem 0rem 0rem;
+  padding: 1rem 0rem 0rem 0rem;
+  transition: transform 0.3s ease;
 }
 
-.archContainer.hovered {
+#shop .archContainer:hover{
+    transform:translateY(-6px);
+}
+#shop .archContainer.hovered {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
 }
 
 .content, .options {
@@ -204,28 +407,81 @@ main {
   align-items: center;
   justify-content: center;
 }
-#addToBasketButton, #checkout-button{
+
+#addToBasketButton, #checkout-button {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
-  margin-bottom:1rem;
+  margin-bottom: 1rem;
   transition: transform var(--transition-medium), background-color var(--transition-medium);
-  cursor:pointer;
-  border:none;
+  cursor: pointer;
+  border: none;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-#addToBasketButton:hover, #checkout-button:hover{
+
+#addToBasketButton:hover, #checkout-button:hover {
   background-color: #ddd;
   transform: translateY(-1px);
 }
 
-#addToBasketButton img{
+#addToBasketButton img {
   width: 20px;
   height: 20px;
   margin-right: 8px;
-
 }
+
+.seeMore {
+  margin: 2rem;
+  width: 100%;
+  cursor: pointer;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.seeMore p {
+  font-size: var(--font-nav);
+}
+
+.price {
+  font-weight: bold;
+  margin: 0.2rem 0;
+  font-family: DancingScript, cursive;
+}
+
+.maximise {
+  width: 100%;
+  background-color: var(--main);
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.maximise .arch {
+  width: 30%;
+  height: auto;
+  margin-top: 0.5%;
+  padding: 1rem;
+}
+
+.maximise .arch svg {
+  width: 100%;
+  height: auto;
+}
+
+.arch {
+  margin-top: 0.5%;
+  padding: 0rem 1rem;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
 /*-------------------------------------------------------------------------------------------------- COLOR SWATCHES & INTERACTIVE BUTTONS -------------------------------------------------------------------------------------------------------------------------------------------*/
 #buttons {
   display: flex;
@@ -242,7 +498,7 @@ main {
   width: var(--swatch-size);
   height: var(--swatch-size);
   border-radius: 50%;
-  border:none;
+  border: none;
   background-color: transparent;
   cursor: pointer;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
@@ -279,44 +535,6 @@ main {
   justify-content: space-evenly;
 }
 
-/*-------------------------------------------------------------------------------------------------- SEE MORE & MAXIMIZE VIEW -------------------------------------------------------------------------------------------------------------------------------------------*/
-.seeMore {
-  width: 100%;
-  cursor: pointer;
-  padding: 1rem;
-  display:flex;
-  flex-direction: column;
-  justify-content:center;
-}
-
-.seeMore p{
-  font-size: var(--font-button);
-}
-.price{
-  font-weight: bold;
-  margin: 0.2rem 0;
-  font-family:DancingScript, cursive;
-}
-
-.maximise {
-  width: 100%;
-  background-color: var(--main);
-  padding: 0;
-  margin: 0;
-  border: none;
-}
-
-.maximise .arch {
-  width: 30%;
-  height: auto;
-  margin-top: 0.5%;
-  padding: 1rem;
-}
-
-.maximise .arch svg {
-  width: 100%;
-  height: auto;
-}
 /*-------------------------------------------------------------------------------------------------- ANIMATIONS & TRANSITIONS -------------------------------------------------------------------------------------------------------------------------------------------*/
 @keyframes slideInFromLeft {
   from { opacity: 0; transform: translateX(-40px); }
@@ -388,6 +606,7 @@ main {
   width: 100%;
   height: 50px;
 }
+
 #back, #save, #share {
   position: absolute;
   top: 10px;
@@ -414,29 +633,6 @@ main {
   animation: hover 0.3s ease forwards;
 }
 
-/*-------------------------------------------------------------------------------------------------- SHOP & ARCH DISPLAY (RESTORED ORIGINAL) -------------------------------------------------------------------------------------------------------------------------------------------*/
-#shop {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  padding: 2rem 0;
-  flex-wrap: wrap;
-  width: 100%;
-  background-color: var(--main);
-  height: auto;
-}
-
-.arch {
-  margin-top: 0.5%;
-  padding:0rem 1rem;
-}
-
-svg {
-  width: 100%;
-  height: auto;
-  pointer-events: none;
-}
-
 /*-------------------------------------------------------------------------------------------------- UTILITY CLASSES -------------------------------------------------------------------------------------------------------------------------------------------*/
 .hide, .hideOptions { display: none; }
 .balloon1 { width: 100%; display: flex; }
@@ -458,10 +654,10 @@ button,
 }
 
 button:hover {
-  background-color: var(--hover);
+  background-color: #eee;
 }
 
-/*-------------------------------------------------------------------------------------------------- SERVICES SECTION (WIDER CARDS) -------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------- SERVICES SECTION -------------------------------------------------------------------------------------------------------------------------------------------*/
 #services {
   padding: 4rem 2rem;
   background-color: var(--main);
@@ -492,11 +688,12 @@ button:hover {
   transform: translateY(-5px);
 }
 
-/*-------------------------------------------------------------------------------------------------- REVIEWS SECTION (SIDE MARGINS) -------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------- REVIEWS SECTION -------------------------------------------------------------------------------------------------------------------------------------------*/
 #reviews {
   padding: 4rem 2rem;
   background-color: var(--main);
 }
+
 #reviews h2 {
   text-align: center;
 }
@@ -531,7 +728,7 @@ button:hover {
   transform: translateY(-5px);
 }
 
-/*-------------------------------------------------------------------------------------------------- CONTACT FORM (THINNER & CENTERED) -------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------- CONTACT FORM -------------------------------------------------------------------------------------------------------------------------------------------*/
 #contact {
   padding: 3rem 1rem;
   background-color: var(--main);
@@ -590,6 +787,7 @@ button:hover {
 #contact-form button:hover {
   background-color: #333;
 }
+
 /*-------------------------------------------------------------------------------------------------- BASKET SECTION -------------------------------------------------------------------------------------------------------------------------------------------*/
 #basket {
   padding: 4rem 2rem;
@@ -620,4 +818,34 @@ button:hover {
 .basket-total {
   margin-top: 2rem;
   font-weight: bold;
+}
+
+/*-------------------------------------------------------------------------------------------------- RESPONSIVE ADJUSTMENTS -------------------------------------------------------------------------------------------------------------------------------------------*/
+@media (max-width: 768px) {
+  #banner {
+    padding: 4rem 1.5rem;
+  }
+  #welcome-text {
+    font-size: 1.6rem;
+  }
+  #contact-us {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  #topSellerObjects {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+  }
+  #topSellerObjects .archContainer {
+    width: 100%;
+    max-width: 350px;
+    height: 280px;
+  }
+  #overlay h1 {
+    font-size: 2rem;
+  }
+  #overlay p {
+    font-size: 1rem;
+  }
 }

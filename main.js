@@ -3,6 +3,7 @@ window.onload =function(){
     document.getElementById("loading").style.display="none";
 }
 
+//--------------------------------------------------------------------------------------------------FETCH SVG IMAGES FOR SHOP PAGE-------------------------------------------------------------------------------------------------------------------------------------------
 if (window.location.pathname.includes("shop.html")) {
 //fetching arch1 images
 fetch("assets/media/arch1single.svg")
@@ -21,7 +22,6 @@ fetch("assets/media/arch1triple.svg")
 .then(response=> response.text())
 .then(svg=>{
     document.getElementById("arch3").innerHTML=svg;
-    document.getElementById("arch9").innerHTML=svg;
 });
 
 //fetching arch2 images
@@ -80,7 +80,7 @@ content.forEach(container=>{
 })
 
 }
-
+//--------------------------------------------------------------------------------------------------FETCH SVG IMAGE FOR SEE MORE PAGE-------------------------------------------------------------------------------------------------------------------------------------------
 if (window.location.pathname.includes("seeMore.html")) {
   const params = new URLSearchParams(window.location.search);
   const archId = params.get("archId");
@@ -174,7 +174,25 @@ switch(archId){
   });
   
 }
-
+//--------------------------------------------------------------------------------------------------GETCH SVG FOR TOP SELLERS-------------------------------------------------------------------------------------------------------------------------------------------
+if( window.location.pathname.includes("index.html")){
+  fetch("assets/media/arch1triple.svg")
+    .then(response=> response.text())
+    .then(svg=>{
+        document.getElementById("arch3").innerHTML=svg;
+    });
+    fetch("assets/media/arch2triple.svg")
+    .then(response=> response.text())
+    .then(svg=>{
+        document.getElementById("arch6").innerHTML=svg;
+    });
+    fetch("assets/media/arch3triple.svg")
+    .then(response=> response.text())
+    .then(svg=>{
+        document.getElementById("arch9").innerHTML=svg;
+    });
+}
+//--------------------------------------------------------------------------------------------------DECLARE GLOBAL VARIABLES-------------------------------------------------------------------------------------------------------------------------------------------
 //Delare all gloabal variables
 let welcomeText = ["Your event, your style — we make it happen","No matter the occasion, we make it special","Designed for every moment worth celebrating","Whatever the celebration, we’re here to elevate it"];
 let containers = document.querySelectorAll(".archContainer");
