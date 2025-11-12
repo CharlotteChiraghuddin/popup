@@ -9,7 +9,7 @@ const header = document.querySelector("header");
 if (window.innerWidth <= 768) {
     console.log(header);
     header.innerHTML=
-    `<div id="more" onclick="toggleNav()">
+    `<div id="more" onclick="openNav()">
     <img src="./assets/media/more.png">
     </div>`
 }else{
@@ -39,8 +39,61 @@ if (window.innerWidth <= 768) {
         </div>`
 }
 
-function toggleNav(){
-  console.log("toggle button clicked");
+function openNav() {
+  // Clear header first
+  header.innerHTML = "";
+
+  // Create close button
+  const closeBtn = document.createElement("div");
+  closeBtn.id = "close";
+  closeBtn.onclick = closeNav;
+  closeBtn.innerHTML = `<img src="./assets/media/close.png">`;
+  header.appendChild(closeBtn);
+
+  // Create nav wrapper
+  const nav = document.createElement("div");
+  nav.className = "nav-wrapper";
+  nav.innerHTML = `
+    <p>POPUP</p>
+    <nav>
+      <ul>
+        <li><a class="nav-link" href="./index.html">Home</a></li>
+        <li><a class="nav-link" href="./services.html">Services</a></li>
+        <li><a class="nav-link" href="./shop.html">Shop</a></li>
+        <li><a class="nav-link" href="./reviews.html">Reviews</a></li>
+        <li><a class="nav-link" href="./contact.html">Contact</a></li>
+        <li><a class="nav-link" href="./basket.html">Basket</a></li>
+      </ul>
+    </nav>
+  `;
+  header.appendChild(nav);
+
+  // Trigger transition
+  requestAnimationFrame(() => nav.classList.add("show"));
+
+
+}
+
+function closeNav() {
+  const nav = document.querySelector(".nav-wrapper");
+  if (nav) {
+    nav.classList.remove("show");
+    // Wait for transition to finish before clearing
+    setTimeout(() => {
+      header.innerHTML = `
+        <div id="more" onclick="openNav()">
+          <img src="./assets/media/more.png">
+        </div>
+      `;
+    }, 300); // Match this to your CSS transition duration
+  } else {
+    // Fallback if nav isn't found
+    header.innerHTML = `
+      <div id="more" onclick="openNav()">
+        <img src="./assets/media/more.png">
+      </div>
+    `;
+  }
 }
 //--------------------------------------------------------------------------------------------------FETCH SVG IMAGES FOR SHOP PAGE-------------------------------------------------------------------------------------------------------------------------------------------
 if (window.location.pathname.includes("shop.html")) {
