@@ -1,474 +1,363 @@
-//onload hide loading screen
-window.onload = function () {
-  const loadingScreen = document.getElementById("loading");
-  if (loadingScreen) {
-    loadingScreen.style.display = "none";
-  }
-};
+// ========================================
+// 1. HIDE LOADING SCREEN ON LOAD
+// ========================================
+window.addEventListener("load", () => {
+  const loading = document.getElementById("loading");
+  if (loading) loading.style.display = "none";
+});
+
+/* --------------------------------------------------------------
+   2. HEADER – MOBILE vs DESKTOP + ALWAYS-VISIBLE TITLE
+   -------------------------------------------------------------- */
 const header = document.querySelector("header");
-if (window.innerWidth <= 768) {
-    console.log(header);
-    header.innerHTML=
-    `<div id="more" onclick="openNav()">
-    <img src="./assets/media/more.png">
-    </div>`
-}else{
-  header.innerHTML = 
-  `<div class="header-wrapper">
-            <div id="sec1">
-                <nav>
-                    <ul>
-                        <li><a class="nav-link" href="./index.html">Home</a></li>
-                        <li><a class="nav-link" href="./services.html">Services</a></li>
-                        <li><a class="nav-link" href="./shop.html">Shop</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div id="name">
-                <p>POPUP</p>
-            </div>
-            <div id="sec2">
-                <nav>
-                    <ul>
-                        <li><a class="nav-link" href="./reviews.html">Reviews</a></li>
-                        <li><a class="nav-link" href="./contact.html">Contact</a></li>
-                        <li><a class="nav-link" href="./basket.html">Basket</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>`
-}
+let isMobile = window.innerWidth <= 768;
 
+/* ----- TITLE that never disappears ----- */
+const titleHTML = `<div id="name"><p>POPUP</p></div>`;
+
+/* ----- Mobile header (title + more button) ----- */
+const mobileHeaderHTML = `
+  ${titleHTML}
+  <div id="more" onclick="openNav()">
+    <img src="./assets/media/more.png" alt="Menu">
+  </div>
+`;
+
+/* ----- Desktop header (title + two nav sections) ----- */
+const desktopHeaderHTML = `
+  <div class="header-wrapper">
+    <div id="sec1"><nav><ul>
+      <li><a class="nav-link" href="./index.html">Home</a></li>
+      <li><a class="nav-link" href="./services.html">Services</a></li>
+      <li><a class="nav-link" href="./shop.html">Shop</a></li>
+    </ul></nav></div>
+    ${titleHTML}
+    <div id="sec2"><nav><ul>
+      <li><a class="nav-link" href="./reviews.html">Reviews</a></li>
+      <li><a class="nav-link" href="./contact.html">Contact</a></li>
+      <li><a class="nav-link" href="./basket.html">Basket</a></li>
+    </ul></nav></div>
+  </div>
+`;
+
+/* ----- Render initial header ----- */
+header.innerHTML = isMobile ? mobileHeaderHTML : desktopHeaderHTML;
+
+/* --------------------------------------------------------------
+   3. NAVIGATION – OPEN / CLOSE (smooth)
+   -------------------------------------------------------------- */
 function openNav() {
-  // Clear header first
-  header.innerHTML = "";
+  // Keep the title, replace everything else
+  header.innerHTML = titleHTML;
 
-  // Create close button
-  const closeBtn = document.createElement("div");
-  closeBtn.id = "close";
-  closeBtn.onclick = closeNav;
-  closeBtn.innerHTML = `<img src="./assets/media/close.png">`;
+  // Close button
+  const closeBtn = Object.assign(document.createElement("div"), {
+    id: "close",
+    innerHTML: `<img src="./assets/media/close.png" alt="Close">`,
+    onclick: closeNav
+  });
   header.appendChild(closeBtn);
 
-  // Create nav wrapper
-  const nav = document.createElement("div");
-  nav.className = "nav-wrapper";
-  nav.innerHTML = `
-    <p>POPUP</p>
-    <nav>
-      <ul>
-        <li><a class="nav-link" href="./index.html">Home</a></li>
-        <li><a class="nav-link" href="./services.html">Services</a></li>
-        <li><a class="nav-link" href="./shop.html">Shop</a></li>
-        <li><a class="nav-link" href="./reviews.html">Reviews</a></li>
-        <li><a class="nav-link" href="./contact.html">Contact</a></li>
-        <li><a class="nav-link" href="./basket.html">Basket</a></li>
-      </ul>
-    </nav>
-  `;
+  // Nav overlay
+  const nav = Object.assign(document.createElement("div"), {
+    className: "nav-wrapper",
+    innerHTML: `
+      <nav>
+        <ul>
+          <li><a class="nav-link" href="./index.html">Home</a></li>
+          <li><a class="nav-link" href="./services.html">Services</a></li>
+          <li><a class="nav-link" href="./shop.html">Shop</a></li>
+          <li><a class="nav-link" href="./reviews.html">Reviews</a></li>
+          <li><a class="nav-link" href="./contact.html">Contact</a></li>
+          <li><a class="nav-link" href="./basket.html">Basket</a></li>
+        </ul>
+      </nav>
+    `
+  });
   header.appendChild(nav);
 
-  // Trigger transition
-  requestAnimationFrame(() => nav.classList.add("show"));
-
-
+  requestAnimationFrame(() => {
+    nav.classList.add("show");
+    closeBtn.classList.add("show");
+  });
 }
 
 function closeNav() {
-  const nav = document.querySelector(".nav-wrapper");
-  if (nav) {
-    nav.classList.remove("show");
-    // Wait for transition to finish before clearing
-    setTimeout(() => {
-      header.innerHTML = `
-        <div id="more" onclick="openNav()">
-          <img src="./assets/media/more.png">
-        </div>
-      `;
-    }, 300); // Match this to your CSS transition duration
-  } else {
-    // Fallback if nav isn't found
-    header.innerHTML = `
-      <div id="more" onclick="openNav()">
-        <img src="./assets/media/more.png">
-      </div>
-    `;
+  const nav      = document.querySelector(".nav-wrapper");
+  const closeBtn = document.getElementById("close");
+
+  if (!nav) {
+    header.innerHTML = mobileHeaderHTML;
+    return;
   }
+
+  nav.classList.remove("show");
+  closeBtn.classList.remove("show");
+
+  const onEnd = () => {
+    header.innerHTML = mobileHeaderHTML;
+    nav.removeEventListener("transitionend", onEnd);
+  };
+  nav.addEventListener("transitionend", onEnd);
 }
-//--------------------------------------------------------------------------------------------------FETCH SVG IMAGES FOR SHOP PAGE-------------------------------------------------------------------------------------------------------------------------------------------
-if (window.location.pathname.includes("shop.html")) {
-//fetching arch1 images
-fetch("assets/media/arch1single.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch1").innerHTML=svg;
+
+/* --------------------------------------------------------------
+   4. RESIZE – REBUILD HEADER ON SCREEN CHANGE
+   -------------------------------------------------------------- */
+window.addEventListener("resize", () => {
+  const nowMobile = window.innerWidth <= 768;
+  if (nowMobile !== isMobile) {
+    isMobile = nowMobile;
+    header.innerHTML = isMobile ? mobileHeaderHTML : desktopHeaderHTML;
+  }
 });
 
-fetch("assets/media/arch1double.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch2").innerHTML=svg;
-});
+/* --------------------------------------------------------------
+   5. SVG LOADING: SHOP PAGE
+   -------------------------------------------------------------- */
+if (location.pathname.includes("shop.html")) {
+  const svgMap = {
+    arch1: "arch1single.svg",
+    arch2: "arch1double.svg",
+    arch3: "arch1triple.svg",
+    arch4: "arch2single.svg",
+    arch5: "arch2double.svg",
+    arch6: "arch2triple.svg",
+    arch7: "arch3single.svg",
+    arch8: "arch3double.svg",
+    arch9: "arch3triple.svg"
+  };
 
-fetch("assets/media/arch1triple.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch3").innerHTML=svg;
-});
+  Object.entries(svgMap).forEach(([id, file]) => {
+    fetch(`assets/media/${file}`)
+      .then(res => res.text())
+      .then(svg => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = svg;
+      });
+  });
 
-//fetching arch2 images
-fetch("assets/media/arch2single.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch4").innerHTML=svg;
-});
-
-fetch("assets/media/arch2double.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch5").innerHTML=svg;
-});
-
-fetch("assets/media/arch2triple.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch6").innerHTML=svg;
-});
-
-//fetching arch3 images
-
-fetch("assets/media/arch3single.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch7").innerHTML=svg;
-});
-
-fetch("assets/media/arch3double.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch8").innerHTML=svg;
-});
-
-fetch("assets/media/arch3triple.svg")
-.then(response=> response.text())
-.then(svg=>{
-    document.getElementById("arch9").innerHTML=svg;
-});
-
-//--------------------------------------------------------------------------------------------------HOVER CONTAINER BEHAVIOUR-------------------------------------------------------------------------------------------------------------------------------------------
-const content = document.querySelectorAll(".content");
-content.forEach(container=>{
-    container.addEventListener("mouseover", ()=>{
-        let currentContainer = container.closest(".archContainer");
-        currentContainer.classList.add("hovered");
-    });
-    container.addEventListener("mouseout", ()=>{
-        let currentContainer = container.closest(".archContainer");
-        currentContainer.classList.remove("hovered");
-    });
-    container.addEventListener("click", (event) => {
-        handleClick(event);
-    });
-})
-
+  document.querySelectorAll(".content").forEach(container => {
+    const arch = container.closest(".archContainer");
+    container.addEventListener("mouseover", () => arch.classList.add("hovered"));
+    container.addEventListener("mouseout", () => arch.classList.remove("hovered"));
+    container.addEventListener("click", handleClick);
+  });
 }
-//--------------------------------------------------------------------------------------------------FETCH SVG IMAGE FOR SEE MORE PAGE-------------------------------------------------------------------------------------------------------------------------------------------
-if (window.location.pathname.includes("seeMore.html")) {
-  const params = new URLSearchParams(window.location.search);
+
+/* --------------------------------------------------------------
+   6. SVG LOADING: SEE MORE PAGE
+   -------------------------------------------------------------- */
+if (location.pathname.includes("seeMore.html")) {
+  const params = new URLSearchParams(location.search);
   const archId = params.get("archId");
+  const idToFile = {
+    arch1Single: "arch1single.svg",
+    arch1Double: "arch1double.svg",
+    arch1Triple: "arch1triple.svg",
+    arch2Single: "arch2single.svg",
+    arch2Double: "arch2double.svg",
+    arch2Triple: "arch2triple.svg",
+    arch3Single: "arch3single.svg",
+    arch3Double: "arch3double.svg",
+    arch3Triple: "arch3triple.svg"
+  };
 
-switch(archId){
-    case "arch1Single":
-        fetch("assets/media/arch1single.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-    case "arch1Double":
-        fetch("assets/media/arch1double.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-    
-    case "arch1Triple":
-        fetch("assets/media/arch1triple.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-        
-    case "arch2Single":
-        fetch("assets/media/arch2single.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-    case "arch2Double":
-        fetch("assets/media/arch2double.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-    case "arch2Triple":
-        fetch("assets/media/arch2triple.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-    case "arch3Single":
-        fetch("assets/media/arch3single.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-    case "arch3Double":
-        fetch("assets/media/arch3double.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-    case "arch3Triple":
-        fetch("assets/media/arch3triple.svg")
-        .then(response=> response.text())
-        .then(svg=>{
-            document.getElementById("archSelectionImage").innerHTML=svg;
-        });
-        break;
-    default:
-        console.error("Invalid archId parameter");
-        break;
+  if (archId && idToFile[archId]) {
+    fetch(`assets/media/${idToFile[archId]}`)
+      .then(res => res.text())
+      .then(svg => {
+        const img = document.getElementById("archSelectionImage");
+        if (img) img.innerHTML = svg;
+      });
+  }
 
-}
   document.querySelectorAll(".colors").forEach(btn => {
     const color = btn.dataset.color;
-    btn.style.backgroundColor = color;
-    btn.style.width = "30px";            
-    btn.style.height = "30px";
-    btn.style.cursor = "pointer";
-    btn.style.margin = "1%";
-    btn.style.border = "none";
-    btn.style.boxShadow = "0 1px 3px rgba(0, 0, 0, 0.2)";
-    btn.addEventListener("mouseover", () => {
-      btn.style.transform = "scale(1.1)";
+    Object.assign(btn.style, {
+      backgroundColor: color,
+      width: "30px",
+      height: "30px",
+      cursor: "pointer",
+      margin: "1%",
+      border: "none",
+      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.2)"
     });
-    btn.addEventListener("mouseout", () => {
-      btn.style.transform = "scale(1)";
-    });
+
+    btn.addEventListener("mouseover", () => btn.style.transform = "scale(1.1)");
+    btn.addEventListener("mouseout", () => btn.style.transform = "scale(1)");
   });
-  
 }
-//--------------------------------------------------------------------------------------------------GETCH SVG FOR TOP SELLERS-------------------------------------------------------------------------------------------------------------------------------------------
-if( window.location.pathname.includes("index.html")){
-  fetch("assets/media/arch1triple.svg")
-    .then(response=> response.text())
-    .then(svg=>{
-        document.getElementById("arch3").innerHTML=svg;
-    });
-    fetch("assets/media/arch2triple.svg")
-    .then(response=> response.text())
-    .then(svg=>{
-        document.getElementById("arch6").innerHTML=svg;
-    });
-    fetch("assets/media/arch3triple.svg")
-    .then(response=> response.text())
-    .then(svg=>{
-        document.getElementById("arch9").innerHTML=svg;
-    });
+
+/* --------------------------------------------------------------
+   7. TOP SELLERS (INDEX)
+   -------------------------------------------------------------- */
+if (location.pathname.includes("index.html")) {
+  const topSellerSVGs = ["arch1triple.svg", "arch2triple.svg", "arch3triple.svg"];
+  const ids = ["arch3", "arch6", "arch9"];
+
+  topSellerSVGs.forEach((file, i) => {
+    fetch(`assets/media/${file}`)
+      .then(res => res.text())
+      .then(svg => {
+        const el = document.getElementById(ids[i]);
+        if (el) el.innerHTML = svg;
+      });
+  });
 }
-//--------------------------------------------------------------------------------------------------DECLARE GLOBAL VARIABLES-------------------------------------------------------------------------------------------------------------------------------------------
-//Delare all gloabal variables
-let welcomeText = ["Your event, your style — we make it happen","No matter the occasion, we make it special","Designed for every moment worth celebrating","Whatever the celebration, we’re here to elevate it"];
-let containers = document.querySelectorAll(".archContainer");
-let currentSelection ={"firstColor":null, "secondColor":null, "thirdColor":null}
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll(".nav-link");
 
+/* --------------------------------------------------------------
+   8. GLOBAL VARIABLES & NAV ACTIVE
+   -------------------------------------------------------------- */
+const welcomeText = [
+  "Your event, your style — we make it happen",
+  "No matter the occasion, we make it special",
+  "Designed for every moment worth celebrating",
+  "Whatever the celebration, we’re here to elevate it"
+];
 
-//--------------------------------------------------------------------------------------------------NAV LINKS ACTIVE STATE-------------------------------------------------------------------------------------------------------------------------------------------
-//change nav style when in different section
-navLinks.forEach(link=>{
-    const linkHref = link.getAttribute("href").replace("./", "");
-    const currentPage = window.location.pathname.split("/").pop();
+let currentSelection = { firstColor: null, secondColor: null, thirdColor: null };
 
-  if(linkHref === currentPage){
+document.querySelectorAll(".nav-link").forEach(link => {
+  const href = link.getAttribute("href").replace("./", "");
+  if (href === location.pathname.split("/").pop()) {
     link.classList.add("active");
   }
-})
-//--------------------------------------------------------------------------------------------------ROTATE THE WELCOME TEXT-------------------------------------------------------------------------------------------------------------------------------------------
-if (window.location.pathname.includes("index.html")) {
-
-let welcomeTextIndex = 0;
-function rotateWelcomeText() {
-  const el = document.getElementById("welcome-text");
-  
-  // Fade out
-  el.style.opacity = 0;
-
-  setTimeout(() => {
-    // Change text after fade out
-    welcomeTextIndex = (welcomeTextIndex + 1) % welcomeText.length;
-    el.innerText = welcomeText[welcomeTextIndex];
-
-    // Fade in
-    el.style.opacity = 1;
-  }, 500); 
-}
-
-setInterval(rotateWelcomeText, 4000);
-}
-
-//--------------------------------------------------------------------------------------------------HANDLE CLICK OF SEE MORE BUTTON-------------------------------------------------------------------------------------------------------------------------------------------
-function handleClick(e){
-  const arch=e.target.closest(".archContainer");
-  const archId = arch.id;
-  console.log(archId);
-  window.location.href = `seeMore.html?archId=${archId}`;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.location.pathname.includes("seeMore.html")) {
-    const params = new URLSearchParams(window.location.search);
-    const newID = params.get("archId");
-
-    if (newID) {
-      const target = document.getElementById("archSelection");
-      if (target) {
-        target.id = newID;
-        if(newID.includes("Single")){
-          document.getElementById("arrowContainer").querySelector("#leftArrow").classList.add("hide");
-          document.getElementById("arrowContainer").querySelector("#rightArrow").classList.add("hide");
-          document.getElementById("arrowContainer").querySelector(".statement").textContent="Pick your color";
-        }else if(newID.includes("Double")||newID.includes("Triple")){
-          document.getElementById("arrowContainer").querySelector(".statement").textContent="Pick your first color";
-          document.getElementById("arrowContainer").querySelector("#leftArrow").classList.remove("hide");
-          document.getElementById("arrowContainer").querySelector("#rightArrow").classList.remove("hide");
-        }
-    }
-  
-
-  let rightArrow = document.getElementById("rightArrow");
-  let leftArrow = document.getElementById("leftArrow");
-  rightArrow.addEventListener("click",rightArrowClick);
-  leftArrow.addEventListener("click",leftArrowClick);
-
-                const colors = document.querySelectorAll(".colors");
-                const currentContainerId = new URLSearchParams(window.location.search).get("archId");
-                colors.forEach(color=>{
-                    color.addEventListener("click", (event)=>{
-                        if(currentContainerId.includes("Single")){
-                            handleColorClick(event);
-                        }else if(currentContainerId.includes("Double")){
-                            handleColorClickDouble(event);
-                        }else if(currentContainerId.includes("Triple")){
-                            handleColorClickTriple(event);
-                        }
-                })
-                })
-              }
-    document.getElementById("back").addEventListener("click", goBack);}
 });
 
-//--------------------------------------------------------------------------------------------------HANDLE COLOUR CLICKS-------------------------------------------------------------------------------------------------------------------------------------------
-function handleColorClick(e){
-    let colors = document.querySelectorAll(".colors");
-    colors.forEach(color=>{
-        color.classList.remove("selected");
-    })
-    e.target.classList.add("selected");
-    let layer = e.target.parentNode.parentNode.parentNode.querySelector(".arch svg");
-    console.log(layer);
-    let ellipses = layer.querySelectorAll("ellipse");
-    console.log(ellipses);
-    let selectedColor = e.target.dataset.color;
-    let outline = e.target.dataset.outline;
-    console.log(selectedColor);
-    ellipses.forEach(circle=>{
-      if(circle.getAttribute("inkscape:label") === "grey"){
-        circle.style.fill = selectedColor;
-        circle.style.stroke = outline;
-      }
-    })
+/* --------------------------------------------------------------
+   9. WELCOME TEXT ROTATION (INDEX)
+   -------------------------------------------------------------- */
+if (location.pathname.includes("index.html")) {
+  let index = 0;
+  const el = document.getElementById("welcome-text");
+
+  const rotate = () => {
+    el.style.opacity = 0;
+    setTimeout(() => {
+      el.textContent = welcomeText[index = (index + 1) % welcomeText.length];
+      el.style.opacity = 1;
+    }, 500);
+  };
+
+  setInterval(rotate, 4000);
+  rotate();
 }
 
-function handleColorClickDouble(e){
-   const colors = document.querySelectorAll(".colors");
-  const layer = e.target.closest(".archContainer").querySelector(".arch svg");
-  const ellipses = layer.querySelectorAll("ellipse");
-  const selectedColor = e.target.dataset.color;
-  const outline = e.target.dataset.outline;
-  const statement = document.querySelector("#arrowContainer p");
-  const text = statement.textContent;
+/* --------------------------------------------------------------
+   10. SEE MORE PAGE: LOGIC
+   -------------------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  if (!location.pathname.includes("seeMore.html")) return;
 
-  // Clear previous selection
-  colors.forEach(color => color.classList.remove("selected"));
+  const params = new URLSearchParams(location.search);
+  const archId = params.get("archId");
+  const target = document.getElementById("archSelection");
+  if (!target || !archId) return;
 
-  // Highlight clicked button
+  target.id = archId;
+  const statement = document.querySelector("#arrowContainer .statement");
+  const leftArrow = document.getElementById("leftArrow");
+  const rightArrow = document.getElementById("rightArrow");
+
+  if (archId.includes("Single")) {
+    [leftArrow, rightArrow].forEach(a => a.classList.add("hide"));
+    statement.textContent = "Pick your color";
+  } else {
+    [leftArrow, rightArrow].forEach(a => a.classList.remove("hide"));
+    statement.textContent = "Pick your first color";
+  }
+
+  document.getElementById("rightArrow").onclick = rightArrowClick;
+  document.getElementById("leftArrow").onclick = leftArrowClick;
+
+  const handler = archId.includes("Single") ? handleColorClick :
+                  archId.includes("Double") ? handleColorClickDouble :
+                  handleColorClickTriple;
+
+  document.querySelectorAll(".colors").forEach(btn => {
+    btn.addEventListener("click", handler);
+  });
+
+  document.getElementById("back").onclick = goBack;
+});
+
+/* --------------------------------------------------------------
+   11. COLOR HANDLERS
+   -------------------------------------------------------------- */
+function handleColorClick(e) {
+  document.querySelectorAll(".colors").forEach(c => c.classList.remove("selected"));
   e.target.classList.add("selected");
 
-  // Apply fill to correct ellipse
-  ellipses.forEach(circle => {
-    const label = circle.getAttribute("inkscape:label");
+  const svg = e.target.closest(".archContainer").querySelector(".arch svg");
+  const ellipses = svg.querySelectorAll("ellipse");
+  const { color, outline } = e.target.dataset;
+
+  ellipses.forEach(el => {
+    if (el.getAttribute("inkscape:label") === "grey") {
+      el.style.fill = color;
+      el.style.stroke = outline;
+    }
+  });
+}
+
+function handleColorClickDouble(e) {
+  const colors = document.querySelectorAll(".colors");
+  const svg = e.target.closest(".archContainer").querySelector(".arch svg");
+  const ellipses = svg.querySelectorAll("ellipse");
+  const { color, outline } = e.target.dataset;
+  const text = document.querySelector("#arrowContainer .statement").textContent;
+
+  colors.forEach(c => c.classList.remove("selected"));
+  e.target.classList.add("selected");
+
+  ellipses.forEach(el => {
+    const label = el.getAttribute("inkscape:label");
     if (
       (label === "grey" && text === "Pick your first color") ||
       (label === "white" && text === "Pick your second color")
     ) {
-      circle.style.fill = selectedColor;
-      circle.style.stroke = outline;
-      saveSelection(text, selectedColor);
+      el.style.fill = color;
+      el.style.stroke = outline;
+      saveSelection(text, color);
     }
   });
 }
 
 function handleColorClickTriple(e) {
   const colors = document.querySelectorAll(".colors");
-  const layer = e.target.closest(".archContainer").querySelector(".arch svg");
-  const ellipses = layer.querySelectorAll("ellipse");
-  const selectedColor = e.target.dataset.color;
-  const outline = e.target.dataset.outline;
-  const statement = document.querySelector("#arrowContainer p");
-  const text = statement.textContent;
+  const svg = e.target.closest(".archContainer").querySelector(".arch svg");
+  const ellipses = svg.querySelectorAll("ellipse");
+  const { color, outline } = e.target.dataset;
+  const text = document.querySelector("#arrowContainer .statement").textContent;
 
-  // Clear previous selection
-  colors.forEach(color => color.classList.remove("selected"));
-
-  // Highlight clicked button
+  colors.forEach(c => c.classList.remove("selected"));
   e.target.classList.add("selected");
 
-  // Apply fill to correct ellipse
-  ellipses.forEach(circle => {
-    const label = circle.getAttribute("inkscape:label");
+  ellipses.forEach(el => {
+    const label = el.getAttribute("inkscape:label");
     if (
       (label === "black" && text === "Pick your first color") ||
       (label === "grey" && text === "Pick your second color") ||
       (label === "white" && text === "Pick your third color")
     ) {
-      circle.style.fill = selectedColor;
-      circle.style.stroke = outline;
-      saveSelection(text, selectedColor);
+      el.style.fill = color;
+      el.style.stroke = outline;
+      saveSelection(text, color);
     }
   });
 }
 
-//--------------------------------------------------------------------------------------------------UPDATE TEXT---------------------------------------------------------------------------------------------------------------------------------------------------
+/* --------------------------------------------------------------
+   12. ARROW NAVIGATION
+   -------------------------------------------------------------- */
 function updateStatementText(newText, direction) {
   const statement = document.querySelector("#arrowContainer .statement");
-  let currentContainer = statement.closest(".archContainer");
-  console.log(currentContainer);
   const buttons = document.querySelector("#buttons");
-  const options = buttons.parentNode.querySelector(".picks");
-  if (!statement || !buttons || !options) return;
+  if (!statement || !buttons) return;
 
   buttons.classList.remove("animate-left", "animate-right");
-  void buttons.offsetWidth; // force reflow
+  void buttons.offsetWidth;
   buttons.classList.add(`animate-${direction}`);
 
   statement.classList.add("fade-out");
@@ -478,55 +367,32 @@ function updateStatementText(newText, direction) {
   }, 300);
 }
 
-//--------------------------------------------------------------------------------------------------SAVE SELECTION TO VARIABLE---------------------------------------------------------------------------------------------------------------------------------------------------
 function saveSelection(position, color) {
-    if(position === "Pick your first color"){
-        currentSelection.firstColor = color;
-    }else if(position === "Pick your second color"){
-        currentSelection.secondColor = color;
-    }else if(position === "Pick your third color"){
-        currentSelection.thirdColor = color;
-    }
+  if (position.includes("first")) currentSelection.firstColor = color;
+  else if (position.includes("second")) currentSelection.secondColor = color;
+  else if (position.includes("third")) currentSelection.thirdColor = color;
 }
-//--------------------------------------------------------------------------------------------------HANDLE ARROW CLICKS---------------------------------------------------------------------------------------------------------------------------------------------------
+
 function rightArrowClick() {
   const statement = document.querySelector("#arrowContainer .statement");
   const text = statement.textContent;
   const colors = document.querySelectorAll(".colors");
+  const archId = statement.closest(".archContainer").id;
+
   if (text === "Pick your first color") {
     updateStatementText("Pick your second color", "right");
-    colors.forEach(colorBtn=>{
-      colorBtn.classList.remove("selected");
-      if(colorBtn.dataset.color === currentSelection.secondColor){
-        colorBtn.classList.add("selected");
-      }
-    })
+    selectColor(colors, currentSelection.secondColor);
   } else if (text === "Pick your second color") {
-    if(statement.closest(".archContainer").id.includes("Double")){
+    if (archId.includes("Double")) {
       updateStatementText("Pick your first color", "right");
-      colors.forEach(colorBtn=>{
-        colorBtn.classList.remove("selected");
-        if(colorBtn.dataset.color === currentSelection.firstColor){
-          colorBtn.classList.add("selected");
-        }
-      });
-      return;
+      selectColor(colors, currentSelection.firstColor);
+    } else {
+      updateStatementText("Pick your third color", "right");
+      selectColor(colors, currentSelection.thirdColor);
     }
-    updateStatementText("Pick your third color", "right");
-    colors.forEach(colorBtn=>{
-      colorBtn.classList.remove("selected");
-      if(colorBtn.dataset.color === currentSelection.thirdColor){
-        colorBtn.classList.add("selected");
-      }
-    });
   } else {
     updateStatementText("Pick your first color", "right");
-    colors.forEach(colorBtn=>{
-      colorBtn.classList.remove("selected");
-      if(colorBtn.dataset.color === currentSelection.firstColor){
-        colorBtn.classList.add("selected");
-      }
-    });
+    selectColor(colors, currentSelection.firstColor);
   }
 }
 
@@ -534,70 +400,53 @@ function leftArrowClick() {
   const statement = document.querySelector("#arrowContainer .statement");
   const text = statement.textContent;
   const colors = document.querySelectorAll(".colors");
+  const archId = statement.closest(".archContainer").id;
+
   if (text === "Pick your first color") {
-    if(statement.closest(".archContainer").id.includes("Double")){
+    if (archId.includes("Double")) {
       updateStatementText("Pick your second color", "left");
-      colors.forEach(colorBtn=>{
-        colorBtn.classList.remove("selected");
-        if(colorBtn.dataset.color === currentSelection.secondColor){
-          colorBtn.classList.add("selected");
-        }
-    });
-      return;
+      selectColor(colors, currentSelection.secondColor);
+    } else {
+      updateStatementText("Pick your third color", "left");
+      selectColor(colors, currentSelection.thirdColor);
     }
-    updateStatementText("Pick your third color", "left");
-    colors.forEach(colorBtn=>{
-      colorBtn.classList.remove("selected");
-      if(colorBtn.dataset.color === currentSelection.thirdColor){
-        colorBtn.classList.add("selected");
-      }
-    });
   } else if (text === "Pick your second color") {
     updateStatementText("Pick your first color", "left");
-    colors.forEach(colorBtn=>{
-      colorBtn.classList.remove("selected");
-      if(colorBtn.dataset.color === currentSelection.firstColor){
-        colorBtn.classList.add("selected");
-      }
-    });
+    selectColor(colors, currentSelection.firstColor);
   } else {
     updateStatementText("Pick your second color", "left");
-    colors.forEach(colorBtn=>{
-      colorBtn.classList.remove("selected");
-      if(colorBtn.dataset.color === currentSelection.secondColor){
-        colorBtn.classList.add("selected");
-      }
-    });
+    selectColor(colors, currentSelection.secondColor);
   }
 }
 
-//--------------------------------------------------------------------------------------------------HANDLE CLICK OF GO BACK BUTTON---------------------------------------------------------------------------------------------------------------------------------------------------
-function goBack() {
-  //reset all saved color selections
-  currentSelection = {"firstColor":null, "secondColor":null, "thirdColor":null};
-  window.location.href = "shop.html";
+function selectColor(colors, savedColor) {
+  colors.forEach(btn => {
+    btn.classList.toggle("selected", btn.dataset.color === savedColor);
+  });
 }
 
-//--------------------------------------------------------------------------------------------------SCROLL FUNCTIONALITY-------------------------------------------------------------------------------------------------------------------------------------------
+/* --------------------------------------------------------------
+   13. GO BACK & SCROLL REVEAL
+   -------------------------------------------------------------- */
+function goBack() {
+  currentSelection = { firstColor: null, secondColor: null, thirdColor: null };
+  location.href = "shop.html";
+}
+
+function handleClick(e) {
+  const arch = e.target.closest(".archContainer");
+  if (arch) location.href = `seeMore.html?archId=${arch.id}`;
+}
+
+// Scroll reveal
 document.addEventListener("DOMContentLoaded", () => {
-  const revealElements = document.querySelectorAll(".reveal");
-
-  const revealOnScroll = () => {
-    const windowHeight = window.innerHeight;
-
-    revealElements.forEach(el => {
-      const elementTop = el.getBoundingClientRect().top;
-
-      if (elementTop < windowHeight - 50) {
-        el.classList.add("visible");
-      }else if(elementTop > windowHeight - 50){
-        el.classList.remove("visible");
-      }
+  const reveals = document.querySelectorAll(".reveal");
+  const onScroll = () => {
+    const h = window.innerHeight;
+    reveals.forEach(el => {
+      el.classList.toggle("visible", el.getBoundingClientRect().top < h - 50);
     });
   };
-
-  window.addEventListener("scroll", revealOnScroll);
-  revealOnScroll(); // trigger on load
-
+  window.addEventListener("scroll", onScroll);
+  onScroll();
 });
-
